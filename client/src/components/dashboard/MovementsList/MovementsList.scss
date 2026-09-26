@@ -1,28 +1,25 @@
-@use '../../../styles/colors' as colors;
-@use '../../../styles/radius' as radius;
-@use '../../../styles/spacing' as spacing;
-@use '../../../styles/typography' as typography;
+@use '../../../styles' as styles;
 
 .movements-list-card {
-  padding: spacing.$double-large;
-  margin-top: spacing.$large;
-  background: colors.$surface;
-  border: 1px solid colors.$border;
-  border-radius: radius.$large;
+  padding: styles.$double-large;
+  margin-top: styles.$large;
+  background: styles.$surface;
+  border: 1px solid styles.$border;
+  border-radius: styles.$radius-large;
 }
 .section-heading {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: spacing.$extra-small;
+  margin-bottom: styles.$extra-small;
 }
 .section-heading h2 {
   margin: 0;
-  font-size: typography.$size-medium;
+  font-size: styles.$size-medium;
   letter-spacing: -0.03em;
 }
 .section-heading a {
-  color: colors.$primary;
-  font-size: typography.$size-small;
+  color: styles.$primary;
+  font-size: styles.$size-small;
   font-weight: 700;
 }

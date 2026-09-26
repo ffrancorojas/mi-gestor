@@ -1,22 +1,19 @@
-@use '../../../styles/colors' as colors;
-@use '../../../styles/radius' as radius;
-@use '../../../styles/spacing' as spacing;
-@use '../../../styles/typography' as typography;
+@use '../../../styles' as styles;
 
 .menu-item {
   display: flex;
   align-items: center;
-  gap: spacing.$medium;
-  padding: spacing.$medium;
-  margin: spacing.$extra-small 0;
-  color: colors.$text-muted;
-  border-radius: radius.$medium;
-  font-size: typography.$size-regular;
+  gap: styles.$medium;
+  padding: styles.$medium;
+  margin: styles.$extra-small 0;
+  color: styles.$text-muted;
+  border-radius: styles.$radius-medium;
+  font-size: styles.$size-regular;
   font-weight: 600;
   transition: 0.2s;
 }
 .menu-item:hover,
 .menu-item.active {
-  color: colors.$primary;
-  background: colors.$primary-soft;
+  color: styles.$primary;
+  background: styles.$primary-soft;
 }

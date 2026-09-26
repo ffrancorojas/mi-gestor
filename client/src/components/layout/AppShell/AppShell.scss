@@ -1,8 +1,4 @@
-@use '../../../styles/colors' as colors;
-@use '../../../styles/radius' as radius;
-@use '../../../styles/shadows' as shadows;
-@use '../../../styles/spacing' as spacing;
-@use '../../../styles/typography' as typography;
+@use '../../../styles' as styles;
 
 .app-shell {
   min-height: 100vh;
@@ -10,9 +6,9 @@
 }
 .sidebar {
   width: 15.5rem;
-  background: colors.$surface;
-  border-right: 1px solid colors.$border;
-  padding: spacing.$double-large spacing.$medium;
+  background: styles.$surface;
+  border-right: 1px solid styles.$border;
+  padding: styles.$double-large styles.$medium;
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
@@ -20,9 +16,9 @@
 .brand {
   display: flex;
   align-items: center;
-  gap: spacing.$small;
-  padding: 0 spacing.$small spacing.$triple-large;
-  font-size: typography.$size-large;
+  gap: styles.$small;
+  padding: 0 styles.$small styles.$triple-large;
+  font-size: styles.$size-large;
   font-weight: 750;
   letter-spacing: -0.04em;
 }
@@ -31,9 +27,9 @@
   height: 2rem;
   display: grid;
   place-items: center;
-  border-radius: radius.$medium;
-  background: colors.$primary;
-  color: colors.$surface;
+  border-radius: styles.$radius-medium;
+  background: styles.$primary;
+  color: styles.$surface;
   font-size: 1rem;
 }
 .close-menu {
@@ -41,7 +37,7 @@
   margin-left: auto;
   border: 0;
   background: transparent;
-  color: colors.$text-muted;
+  color: styles.$text-muted;
 }
 .sidebar-footer {
   margin-top: auto;
@@ -53,10 +49,10 @@
 .topbar {
   display: none;
   height: 4rem;
-  padding: 0 spacing.$extra-large;
+  padding: 0 styles.$extra-large;
   align-items: center;
-  gap: spacing.$medium;
-  border-bottom: 1px solid colors.$border;
+  gap: styles.$medium;
+  border-bottom: 1px solid styles.$border;
   background: rgba(255, 255, 255, 0.9);
 }
 .hamburger {
@@ -64,8 +60,8 @@
   place-items: center;
   border: 0;
   background: transparent;
-  color: colors.$text;
-  padding: spacing.$small;
+  color: styles.$text;
+  padding: styles.$small;
 }
 .mobile-title {
   font-weight: 750;
@@ -74,7 +70,7 @@
 .page-content {
   max-width: 57.5rem;
   margin: 0 auto;
-  padding: spacing.$huge spacing.$triple-large spacing.$extra-huge;
+  padding: styles.$huge styles.$triple-large styles.$extra-huge;
 }
 @media (max-width: 44rem) {
   .sidebar {
@@ -85,7 +81,7 @@
     left: 0;
     transform: translateX(-100%);
     transition: transform 0.22s ease;
-    box-shadow: shadows.$sidebar;
+    box-shadow: styles.$sidebar;
   }
   .sidebar.open {
     transform: translateX(0);
@@ -105,6 +101,6 @@
     display: flex;
   }
   .page-content {
-    padding: spacing.$triple-large spacing.$extra-large spacing.$huge;
+    padding: styles.$triple-large styles.$extra-large styles.$huge;
   }
 }

@@ -1,29 +1,27 @@
-@use '../../styles/colors' as colors;
-@use '../../styles/spacing' as spacing;
-@use '../../styles/typography' as typography;
+@use '../../styles' as styles;
 
 .welcome-row {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  margin-bottom: spacing.$double-large;
+  margin-bottom: styles.$double-large;
 }
 .eyebrow {
-  color: colors.$text-soft;
-  font-size: typography.$size-small;
+  color: styles.$text-soft;
+  font-size: styles.$size-small;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.08em;
 }
 h1 {
   margin: 0.5rem 0 0;
-  font-size: typography.$size-heading;
+  font-size: styles.$size-heading;
   letter-spacing: -0.05em;
 }
 .avatar {
   border: 0;
-  color: colors.$primary;
-  background: colors.$primary-light;
+  color: styles.$primary;
+  background: styles.$primary-light;
   width: 2.5rem;
   height: 2.5rem;
   border-radius: 50%;
@@ -32,8 +30,8 @@ h1 {
 .metric-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: spacing.$large;
-  margin: spacing.$large 0;
+  gap: styles.$large;
+  margin: styles.$large 0;
 }
 @media (max-width: 44rem) {
   h1 {

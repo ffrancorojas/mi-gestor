@@ -1,14 +1,11 @@
-@use '../../../../styles/colors' as colors;
-@use '../../../../styles/radius' as radius;
-@use '../../../../styles/spacing' as spacing;
-@use '../../../../styles/typography' as typography;
+@use '../../../../styles' as styles;
 
 .movement-item {
   display: flex;
   align-items: center;
-  gap: spacing.$medium;
-  padding: spacing.$large 0;
-  border-bottom: 1px solid colors.$border;
+  gap: styles.$medium;
+  padding: styles.$large 0;
+  border-bottom: 1px solid styles.$border;
 }
 .movement-item:last-child {
   border-bottom: 0;
@@ -19,17 +16,17 @@
   display: grid;
   place-items: center;
   border-radius: 0.75rem;
-  background: colors.$food-background;
-  font-size: typography.$size-large;
+  background: styles.$food-background;
+  font-size: styles.$size-large;
 }
 .movement-icon.home-icon {
-  background: colors.$primary-light;
-  color: colors.$primary;
+  background: styles.$primary-light;
+  color: styles.$primary;
   font-size: 1.5rem;
 }
 .movement-icon.salary {
-  background: colors.$positive-background;
-  color: colors.$positive;
+  background: styles.$positive-background;
+  color: styles.$positive;
   font-size: 1.25rem;
 }
 .movement-item-content {
@@ -40,19 +37,19 @@
   display: block;
 }
 .movement-item strong {
-  font-size: typography.$size-regular;
+  font-size: styles.$size-regular;
 }
 .movement-item small {
-  margin-top: spacing.$extra-small;
-  color: colors.$text-soft;
-  font-size: typography.$size-small;
+  margin-top: styles.$extra-small;
+  color: styles.$text-soft;
+  font-size: styles.$size-small;
 }
 .movement-item b {
-  font-size: typography.$size-regular;
+  font-size: styles.$size-regular;
 }
 .movement-item .positive {
-  color: colors.$positive;
+  color: styles.$positive;
 }
 .movement-item .negative {
-  color: colors.$negative;
+  color: styles.$negative;
 }

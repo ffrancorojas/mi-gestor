@@ -1,39 +1,35 @@
-@use '../../../styles/colors' as colors;
-@use '../../../styles/radius' as radius;
-@use '../../../styles/shadows' as shadows;
-@use '../../../styles/spacing' as spacing;
-@use '../../../styles/typography' as typography;
+@use '../../../styles' as styles;
 
 .balance-card {
   padding: 1.75rem 2rem;
-  color: colors.$surface;
-  border-radius: radius.$large;
-  background: linear-gradient(120deg, colors.$balance-start, colors.$balance-end);
-  box-shadow: shadows.$balance;
+  color: styles.$surface;
+  border-radius: styles.$radius-large;
+  background: linear-gradient(120deg, styles.$balance-start, styles.$balance-end);
+  box-shadow: styles.$balance;
 }
 .card-label {
   opacity: 0.78;
-  font-size: typography.$size-regular;
+  font-size: styles.$size-regular;
   font-weight: 600;
 }
 .balance-card strong {
   display: block;
-  margin: spacing.$small 0 spacing.$extra-small;
-  font-size: typography.$size-heading;
+  margin: styles.$small 0 styles.$extra-small;
+  font-size: styles.$size-heading;
   letter-spacing: -0.05em;
 }
 .balance-meta {
-  font-size: typography.$size-small;
+  font-size: styles.$size-small;
   opacity: 0.78;
 }
 .balance-meta span {
-  color: colors.$balance-variation;
+  color: styles.$balance-variation;
   font-weight: 800;
-  margin-right: spacing.$extra-small;
+  margin-right: styles.$extra-small;
 }
 @media (max-width: 44rem) {
   .balance-card {
-    padding: spacing.$double-large;
+    padding: styles.$double-large;
   }
   .balance-card strong {
     font-size: 2rem;

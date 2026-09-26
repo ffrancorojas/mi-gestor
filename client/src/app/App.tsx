@@ -1,8 +1,6 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import { AppShell } from '../components/layout/AppShell'
-import { DashboardView } from '../views/dashboard'
-import { MovementsView } from '../views/movements'
-import { PlaceholderView } from '../views/placeholder'
+import { AppShell } from '../components'
+import { DashboardView, MovementsView, PlaceholderView } from '../views'
 
 export function App() {
   return (
