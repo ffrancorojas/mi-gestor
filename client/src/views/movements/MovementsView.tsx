@@ -1,5 +1,6 @@
 import { type FormEvent, useState } from 'react'
 import { CalendarDays, Plus } from 'lucide-react'
+import { SmallText } from '@/components/common'
 import { MovementList } from '@/components/movements'
 import type { Movement } from './MovementsView.types'
 import './MovementsView.scss'
@@ -204,7 +205,10 @@ export function MovementsView() {
                 </select>
               </label>
               {categories.length === 0 && (
-                <small className="category-help">Crea primero una categoría desde el menú.</small>
+                <SmallText
+                  className="category-help"
+                  text="Crea primero una categoría desde el menú."
+                />
               )}
               <div className="modal-actions">
                 <button
