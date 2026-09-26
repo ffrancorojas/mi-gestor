@@ -1,0 +1,44 @@
+@use 'styles' as styles;
+
+.date-picker {
+  flex: 1;
+}
+
+.date-picker label {
+  display: block;
+  margin-bottom: styles.$extra-small;
+  color: styles.$text-muted;
+  font-size: styles.$size-small;
+  font-weight: 700;
+}
+
+.date-picker-input {
+  display: flex;
+  align-items: center;
+  gap: styles.$small;
+  padding: 0 styles.$medium;
+  border: styles.$border-width styles.$border-style styles.$border-soft;
+  border-radius: styles.$radius-medium;
+  color: styles.$text-muted;
+}
+
+.date-picker-input input {
+  width: 100%;
+  min-width: 0;
+  padding: styles.$medium 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: styles.$text-dark;
+  font-size: styles.$size-regular;
+}
+
+@media (max-width: 44rem) {
+  .date-picker-input {
+    padding: 0 styles.$small;
+  }
+
+  .date-picker-input input {
+    font-size: styles.$size-small;
+  }
+}
