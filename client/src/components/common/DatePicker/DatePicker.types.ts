@@ -3,5 +3,6 @@ export type DatePickerProps = {
   label: string
   value: string
   min?: string
+  required?: boolean
   onChange: (value: string) => void
 }

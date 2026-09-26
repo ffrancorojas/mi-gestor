@@ -1,0 +1,29 @@
+@use 'styles' as styles;
+
+.dropdown label {
+  display: block;
+  margin-bottom: styles.$extra-small;
+  color: styles.$text-muted;
+  font-size: styles.$size-small;
+  font-weight: 700;
+}
+
+.dropdown select {
+  display: block;
+  width: 100%;
+  padding: styles.$medium;
+  border: styles.$border-width styles.$border-style styles.$border-input;
+  border-radius: styles.$radius-small;
+  outline: 0;
+  background: styles.$surface;
+  color: styles.$text-dark;
+}
+
+.dropdown select:focus {
+  border-color: styles.$primary;
+}
+
+.dropdown select:disabled {
+  background: styles.$background;
+  color: styles.$text-soft;
+}
