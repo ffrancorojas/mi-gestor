@@ -4,3 +4,10 @@
   display: grid;
   gap: styles.$medium;
 }
+
+.movement-list-empty {
+  padding: styles.$double-large 0;
+  color: styles.$text-soft;
+  font-size: styles.$size-small;
+  text-align: center;
+}
