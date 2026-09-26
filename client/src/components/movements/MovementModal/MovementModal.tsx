@@ -3,6 +3,7 @@ import {
   DatePicker,
   Dropdown,
   ModalHeader,
+  SaveCancelButtons,
   SmallText,
   TextInput,
 } from '@/components/common'
@@ -75,18 +76,7 @@ export function MovementModal(props: MovementModalProps) {
             />
           )}
 
-          <div className="movement-modal-actions">
-            <button type="button" className="movement-modal-secondary" onClick={handleClose}>
-              Cancelar
-            </button>
-            <button
-              type="submit"
-              className="movement-modal-primary"
-              disabled={categories.length === 0}
-            >
-              Guardar
-            </button>
-          </div>
+          <SaveCancelButtons onCancel={handleClose} saveDisabled={categories.length === 0} />
         </form>
       </section>
     </div>

@@ -29,43 +29,6 @@
   line-height: 1.4;
 }
 
-.movement-modal-actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: styles.$small;
-  margin-top: styles.$extra-small;
-}
-
-.movement-modal-primary,
-.movement-modal-secondary {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: styles.$small;
-  padding: styles.$medium styles.$large;
-  border: 0;
-  border-radius: styles.$radius-medium;
-  font-size: styles.$size-small;
-  font-weight: 750;
-  cursor: pointer;
-}
-
-.movement-modal-primary {
-  background: styles.$primary;
-  color: styles.$surface;
-  box-shadow: styles.$button;
-}
-
-.movement-modal-primary:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-.movement-modal-secondary {
-  background: styles.$surface-muted;
-  color: styles.$text-secondary;
-}
-
 @media (max-width: 44rem) {
   .movement-modal {
     padding: 1.25rem;
