@@ -1,0 +1,10 @@
+@use 'styles' as styles;
+
+.close-button {
+  border: 0;
+  background: transparent;
+  color: styles.$text-muted;
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+}
