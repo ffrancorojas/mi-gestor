@@ -5,7 +5,7 @@
   align-items: center;
   gap: styles.$medium;
   padding: styles.$large 0;
-  border-bottom: 1px solid styles.$border;
+  border-bottom: styles.$border-width styles.$border-style styles.$border;
 }
 .movement-item:last-child {
   border-bottom: 0;

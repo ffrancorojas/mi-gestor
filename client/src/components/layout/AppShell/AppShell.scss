@@ -7,7 +7,7 @@
 .sidebar {
   width: 15.5rem;
   background: styles.$surface;
-  border-right: 1px solid styles.$border;
+  border-right: styles.$border-width styles.$border-style styles.$border;
   padding: styles.$double-large styles.$medium;
   display: flex;
   flex-direction: column;
@@ -52,7 +52,7 @@
   padding: 0 styles.$extra-large;
   align-items: center;
   gap: styles.$medium;
-  border-bottom: 1px solid styles.$border;
+  border-bottom: styles.$border-width styles.$border-style styles.$border;
   background: rgba(255, 255, 255, 0.9);
 }
 .hamburger {

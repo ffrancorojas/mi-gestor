@@ -3,7 +3,7 @@
 .metric-card {
   padding: styles.$double-large;
   background: styles.$surface;
-  border: 1px solid styles.$border;
+  border: styles.$border-width styles.$border-style styles.$border;
   border-radius: styles.$radius-large;
 }
 .metric-card span {

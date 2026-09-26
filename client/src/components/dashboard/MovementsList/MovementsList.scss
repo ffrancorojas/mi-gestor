@@ -4,7 +4,7 @@
   padding: styles.$double-large;
   margin-top: styles.$large;
   background: styles.$surface;
-  border: 1px solid styles.$border;
+  border: styles.$border-width styles.$border-style styles.$border;
   border-radius: styles.$radius-large;
 }
 .section-heading {
