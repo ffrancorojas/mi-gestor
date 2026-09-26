@@ -1,0 +1,26 @@
+.movement-modal label select {
+  display: block;
+  width: 100%;
+  border: 1px solid #e2e2eb;
+  border-radius: 9px;
+  padding: 11px 12px;
+  outline: 0;
+  color: #292b38;
+  background: #fff;
+}
+
+.movement-modal label select:disabled {
+  color: #999baa;
+  background: #f7f7fa;
+}
+
+.category-help {
+  color: #989aa8;
+  font-size: 11px;
+  line-height: 1.4;
+}
+
+.primary-button:disabled {
+  opacity: .5;
+  cursor: not-allowed;
+}
