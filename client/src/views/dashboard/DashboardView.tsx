@@ -1,4 +1,4 @@
-import { BalanceCard, MetricCard, MovementsList } from '../../components/dashboard'
+import { BalanceCard, MetricCard, MovementsList } from '@/components/dashboard'
 import './DashboardView.scss'
 
 export function DashboardView() {

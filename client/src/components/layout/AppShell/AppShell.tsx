@@ -1,7 +1,11 @@
 import { useState } from 'react'
 import { Outlet } from 'react-router-dom'
 import { Menu, X } from 'lucide-react'
-import { NavigationMenuItem, navigationItems, settingsNavigationItem } from '../../navigation'
+import {
+  NavigationMenuItem,
+  navigationItems,
+  settingsNavigationItem,
+} from '@/components/navigation'
 import './AppShell.scss'
 
 export function AppShell() {
