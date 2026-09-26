@@ -80,32 +80,6 @@
 .movements-list {
   margin-top: 0;
 }
-.movement {
-  display: flex;
-  align-items: center;
-  gap: styles.$medium;
-  margin-top: styles.$medium;
-  padding: styles.$medium;
-  background: styles.$surface;
-  border: styles.$border-width styles.$border-style styles.$border-soft;
-  border-radius: styles.$radius-medium;
-}
-.movement-content {
-  min-width: 0;
-  flex: 1;
-}
-.movement-content strong,
-.movement-content small {
-  display: block;
-}
-.movement-content small {
-  margin-top: styles.$extra-small;
-  color: styles.$text-soft;
-  font-size: styles.$size-small;
-}
-.movement b {
-  flex-shrink: 0;
-}
 .modal-backdrop {
   position: fixed;
   z-index: 20;

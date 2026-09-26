@@ -1,5 +1,6 @@
 import { type FormEvent, useState } from 'react'
 import { CalendarDays, Plus } from 'lucide-react'
+import { MovementList } from '@/components/movements'
 import type { Movement } from './MovementsView.types'
 import './MovementsView.scss'
 
@@ -41,9 +42,6 @@ const initialMovements: Movement[] = [
     iconClass: 'food',
   },
 ]
-
-const formatAmount = (amount: number) =>
-  (amount >= 0 ? '+' : '') + amount.toLocaleString('es-ES', { style: 'currency', currency: 'EUR' })
 
 export function MovementsView() {
   const [from, setFrom] = useState('2026-09-01')
@@ -133,21 +131,7 @@ export function MovementsView() {
         {filteredMovements.length === 0 ? (
           <p className="empty-state">No hay movimientos entre las fechas seleccionadas.</p>
         ) : (
-          filteredMovements.map((movement) => (
-            <div className="movement" key={movement.id}>
-              <div className={'movement-icon ' + movement.iconClass}>{movement.icon}</div>
-              <div className="movement-content">
-                <strong>{movement.description}</strong>
-                <small>
-                  {new Date(movement.date + 'T12:00:00').toLocaleDateString('es-ES')} ·{' '}
-                  {movement.category}
-                </small>
-              </div>
-              <b className={movement.amount >= 0 ? 'positive' : 'negative'}>
-                {formatAmount(movement.amount)}
-              </b>
-            </div>
-          ))
+          <MovementList movements={filteredMovements} />
         )}
       </section>
       {showForm && (

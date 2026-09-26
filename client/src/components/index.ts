@@ -1,3 +1,4 @@
 export * from './dashboard'
 export * from './layout'
+export * from './movements'
 export * from './navigation'

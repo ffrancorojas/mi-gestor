@@ -1,0 +1,6 @@
+@use 'styles' as styles;
+
+.movement-list {
+  display: grid;
+  gap: styles.$medium;
+}
