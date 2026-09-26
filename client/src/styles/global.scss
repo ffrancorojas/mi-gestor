@@ -11,6 +11,7 @@
   background: #f7f8fc;
   font-synthesis: none;
 }
+
 * {
   box-sizing: border-box;
 }
@@ -19,7 +20,8 @@ body {
   min-width: 320px;
 }
 button,
-a {
+input,
+select {
   font: inherit;
 }
 a {

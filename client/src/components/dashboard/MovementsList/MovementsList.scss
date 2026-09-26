@@ -1,0 +1,23 @@
+.movements-list-card {
+  padding: 22px;
+  margin-top: 17px;
+  background: #fff;
+  border: 1px solid #ededf4;
+  border-radius: 16px;
+}
+.section-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+.section-heading h2 {
+  margin: 0;
+  font-size: 17px;
+  letter-spacing: -0.03em;
+}
+.section-heading a {
+  color: #6559ee;
+  font-size: 12px;
+  font-weight: 700;
+}

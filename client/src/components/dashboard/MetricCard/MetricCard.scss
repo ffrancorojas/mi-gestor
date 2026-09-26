@@ -1,0 +1,42 @@
+.metric-card {
+  padding: 22px;
+  background: #fff;
+  border: 1px solid #ededf4;
+  border-radius: 16px;
+}
+.metric-card span {
+  display: block;
+  color: #898b9a;
+  font-size: 12px;
+  font-weight: 650;
+}
+.metric-card strong {
+  display: inline-block;
+  margin: 10px 7px 0 0;
+  font-size: 21px;
+  letter-spacing: -0.04em;
+}
+.metric-card em {
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 800;
+}
+.metric-card .positive {
+  color: #16a267;
+}
+.metric-card .negative {
+  color: #ed6e77;
+}
+@media (max-width: 700px) {
+  .metric-card {
+    padding: 16px;
+  }
+  .metric-card strong {
+    font-size: 17px;
+    margin-right: 0;
+  }
+  .metric-card em {
+    display: block;
+    margin-top: 4px;
+  }
+}

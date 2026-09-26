@@ -1,0 +1,17 @@
+.navigation-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  padding: 13px 12px;
+  margin: 3px 0;
+  color: #858797;
+  border-radius: 11px;
+  font-size: 14px;
+  font-weight: 600;
+  transition: 0.2s;
+}
+.navigation-menu-item:hover,
+.navigation-menu-item.active {
+  color: #6559ee;
+  background: #f1efff;
+}

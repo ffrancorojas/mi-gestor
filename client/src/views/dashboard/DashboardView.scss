@@ -1,0 +1,41 @@
+.welcome-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 29px;
+}
+.eyebrow {
+  color: #9799a8;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+h1 {
+  margin: 7px 0 0;
+  font-size: 34px;
+  letter-spacing: -0.05em;
+}
+.avatar {
+  border: 0;
+  color: #6559ee;
+  background: #e9e7ff;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  font-weight: 800;
+}
+.metric-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 17px;
+  margin: 17px 0;
+}
+@media (max-width: 700px) {
+  h1 {
+    font-size: 29px;
+  }
+  .metric-grid {
+    gap: 10px;
+  }
+}

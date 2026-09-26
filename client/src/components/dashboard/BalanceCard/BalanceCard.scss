@@ -1,0 +1,35 @@
+.balance-card {
+  padding: 27px 30px;
+  color: white;
+  border-radius: 18px;
+  background: linear-gradient(120deg, #6559ee, #8479fa);
+  box-shadow: 0 12px 28px rgba(101, 89, 238, 0.2);
+}
+.card-label {
+  opacity: 0.78;
+  font-size: 13px;
+  font-weight: 600;
+}
+.balance-card strong {
+  display: block;
+  margin: 9px 0 6px;
+  font-size: 37px;
+  letter-spacing: -0.05em;
+}
+.balance-meta {
+  font-size: 12px;
+  opacity: 0.78;
+}
+.balance-meta span {
+  color: #c4ffdc;
+  font-weight: 800;
+  margin-right: 4px;
+}
+@media (max-width: 700px) {
+  .balance-card {
+    padding: 23px;
+  }
+  .balance-card strong {
+    font-size: 32px;
+  }
+}

@@ -5,6 +5,10 @@
     "dev:client": "npm --prefix client run dev",
     "dev:server": "npm --prefix server run dev",
     "build": "npm --prefix client run build",
-    "typecheck:server": "npm --prefix server run typecheck"
+    "typecheck:server": "npm --prefix server run typecheck",
+    "lint": "npm --prefix client run lint",
+    "lint:fix": "npm --prefix client run lint:fix",
+    "format": "npm --prefix client run format",
+    "format:check": "npm --prefix client run format:check"
   }
 }
