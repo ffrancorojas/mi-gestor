@@ -1,11 +1,5 @@
 @use 'styles' as styles;
 
-.page-title-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: styles.$double-large;
-}
 .primary-button,
 .secondary-button {
   display: inline-flex;
@@ -28,48 +22,12 @@
   background: styles.$surface-muted;
   color: styles.$text-secondary;
 }
-.filters-card {
-  display: flex;
-  gap: styles.$medium;
-  padding: styles.$double-large;
-  margin-bottom: styles.$large;
-  background: styles.$surface;
-  border: styles.$border-width styles.$border-style styles.$border;
-  border-radius: styles.$radius-large;
-}
-.filter-field {
-  flex: 1;
-}
-.filter-field label,
 .movement-modal label {
   display: block;
   color: styles.$text-muted;
   font-size: styles.$size-small;
   font-weight: 700;
   margin-bottom: 0.25rem;
-}
-.date-input {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  border: styles.$border-width styles.$border-style styles.$border-soft;
-  border-radius: styles.$radius-medium;
-  padding: 0 0.75rem;
-  color: styles.$text-muted;
-}
-.date-input input {
-  width: 100%;
-  min-width: 0;
-  border: 0;
-  outline: 0;
-  background: transparent;
-  padding: 0.75rem 0;
-  color: styles.$text-dark;
-  font-size: styles.$size-regular;
-}
-.results-count {
-  color: styles.$text-soft;
-  font-size: styles.$size-small;
 }
 .empty-state {
   color: styles.$text-soft;
@@ -152,26 +110,6 @@
   cursor: not-allowed;
 }
 @media (max-width: 44rem) {
-  .page-title-row {
-    align-items: flex-start;
-  }
-  .page-title-row .primary-button {
-    padding: 0.75rem;
-    font-size: 0;
-  }
-  .page-title-row .primary-button svg {
-    margin: 0;
-  }
-  .filters-card {
-    gap: 0.5rem;
-    padding: 1rem;
-  }
-  .date-input {
-    padding: 0 0.5rem;
-  }
-  .date-input input {
-    font-size: 0.75rem;
-  }
   .movement-modal {
     padding: 1.25rem;
   }

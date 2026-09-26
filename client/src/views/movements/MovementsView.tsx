@@ -1,57 +1,22 @@
 import { type FormEvent, useState } from 'react'
-import { CalendarDays, Plus } from 'lucide-react'
 import { SmallText } from '@/components/common'
-import { MovementList } from '@/components/movements'
+import {
+  MovementList,
+  MovementsFilters,
+  MovementsHeader,
+  MovementsSectionHeader,
+} from '@/components/movements'
+import { getCurrentDate } from './MovementsView.tools'
 import type { Movement } from './MovementsView.types'
+import { useMovementsView } from './useMovementsView'
 import './MovementsView.scss'
 
-const initialMovements: Movement[] = [
-  {
-    id: 1,
-    description: 'Restaurante',
-    category: 'Alimentación',
-    date: '2026-09-26',
-    amount: -32.5,
-    icon: '🍽️',
-    iconClass: 'food',
-  },
-  {
-    id: 2,
-    description: 'Alquiler',
-    category: 'Vivienda',
-    date: '2026-09-01',
-    amount: -850,
-    icon: '⌂',
-    iconClass: 'home-icon',
-  },
-  {
-    id: 3,
-    description: 'Nómina',
-    category: 'Ingresos',
-    date: '2026-09-01',
-    amount: 2450,
-    icon: '↗',
-    iconClass: 'salary',
-  },
-  {
-    id: 4,
-    description: 'Supermercado',
-    category: 'Alimentación',
-    date: '2026-08-28',
-    amount: -76.2,
-    icon: '🛒',
-    iconClass: 'food',
-  },
-]
-
 export function MovementsView() {
-  const [from, setFrom] = useState('2026-09-01')
-  const [to, setTo] = useState('2026-09-30')
-  const [movements, setMovements] = useState(initialMovements)
-  const [showForm, setShowForm] = useState(false)
+  const { from, setFrom, to, setTo, isMovementModalOpen, handleMovementModal } = useMovementsView()
+  const [movements, setMovements] = useState<Movement[]>([])
   const [description, setDescription] = useState('')
   const [amount, setAmount] = useState('')
-  const [date, setDate] = useState('2026-09-26')
+  const [date, setDate] = useState(getCurrentDate)
   const [categories] = useState<string[]>(() => {
     try {
       return JSON.parse(localStorage.getItem('mi-gestor-categories') ?? '[]') as string[]
@@ -83,60 +48,23 @@ export function MovementsView() {
     setDescription('')
     setAmount('')
     setCategory('')
-    setShowForm(false)
+    handleMovementModal()
   }
 
   return (
     <>
-      <div className="page-title-row">
-        <div>
-          <div className="eyebrow">Actividad financiera</div>
-          <h1>Movimientos</h1>
-        </div>
-        <button className="primary-button" onClick={() => setShowForm(true)}>
-          <Plus size={17} /> Nuevo movimiento
-        </button>
-      </div>
-      <section className="filters-card">
-        <div className="filter-field">
-          <label htmlFor="from">Desde</label>
-          <div className="date-input">
-            <CalendarDays size={16} />
-            <input
-              id="from"
-              type="date"
-              value={from}
-              onChange={(event) => setFrom(event.target.value)}
-            />
-          </div>
-        </div>
-        <div className="filter-field">
-          <label htmlFor="to">Hasta</label>
-          <div className="date-input">
-            <CalendarDays size={16} />
-            <input
-              id="to"
-              type="date"
-              value={to}
-              min={from}
-              onChange={(event) => setTo(event.target.value)}
-            />
-          </div>
-        </div>
-      </section>
+      <MovementsHeader onOpenModal={handleMovementModal} />
+      <MovementsFilters from={from} to={to} onFromChange={setFrom} onToChange={setTo} />
       <section className="content-card movements-list">
-        <div className="section-heading">
-          <h2>Movimientos del periodo</h2>
-          <span className="results-count">{filteredMovements.length} resultados</span>
-        </div>
+        <MovementsSectionHeader resultCount={filteredMovements.length} />
         {filteredMovements.length === 0 ? (
           <p className="empty-state">No hay movimientos entre las fechas seleccionadas.</p>
         ) : (
           <MovementList movements={filteredMovements} />
         )}
       </section>
-      {showForm && (
-        <div className="modal-backdrop" onMouseDown={() => setShowForm(false)}>
+      {isMovementModalOpen && (
+        <div className="modal-backdrop" onMouseDown={handleMovementModal}>
           <section
             className="movement-modal"
             role="dialog"
@@ -146,11 +74,7 @@ export function MovementsView() {
           >
             <div className="modal-heading">
               <h2 id="new-movement-title">Nuevo movimiento</h2>
-              <button
-                className="modal-close"
-                onClick={() => setShowForm(false)}
-                aria-label="Cerrar"
-              >
+              <button className="modal-close" onClick={handleMovementModal} aria-label="Cerrar">
                 ×
               </button>
             </div>
@@ -211,11 +135,7 @@ export function MovementsView() {
                 />
               )}
               <div className="modal-actions">
-                <button
-                  type="button"
-                  className="secondary-button"
-                  onClick={() => setShowForm(false)}
-                >
+                <button type="button" className="secondary-button" onClick={handleMovementModal}>
                   Cancelar
                 </button>
                 <button type="submit" className="primary-button" disabled={!category}>
