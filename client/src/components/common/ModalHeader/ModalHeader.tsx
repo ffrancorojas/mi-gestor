@@ -5,7 +5,6 @@ import type { ModalHeaderProps } from './ModalHeader.types'
 export function ModalHeader({ title, titleId, onClose }: ModalHeaderProps) {
   return (
     <DialogTitle
-      id={titleId}
       sx={{
         display: 'flex',
         alignItems: 'center',
@@ -17,7 +16,7 @@ export function ModalHeader({ title, titleId, onClose }: ModalHeaderProps) {
         fontWeight: 800,
       }}
     >
-      {title}
+      <span id={titleId}>{title}</span>
       <CloseButton onClick={onClose} />
     </DialogTitle>
   )
