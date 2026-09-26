@@ -1,6 +1,7 @@
+import InputAdornment from '@mui/material/InputAdornment'
+import TextField from '@mui/material/TextField'
 import { formatCurrencyValue } from '@/tools'
 import type { CurrencyInputProps } from './CurrencyInput.types'
-import './CurrencyInput.scss'
 
 export function CurrencyInput({
   id,
@@ -16,21 +17,21 @@ export function CurrencyInput({
   }
 
   return (
-    <div className="currency-input">
-      <label htmlFor={id}>{label}</label>
-      <div className="currency-input-control">
-        <input
-          id={id}
-          type="text"
-          inputMode="decimal"
-          value={value}
-          placeholder={placeholder}
-          required={required}
-          onChange={(event) => onChange(event.target.value)}
-          onBlur={handleBlur}
-        />
-        <span aria-hidden="true">{currencySymbol}</span>
-      </div>
-    </div>
+    <TextField
+      id={id}
+      label={label}
+      type="text"
+      value={value}
+      placeholder={placeholder}
+      required={required}
+      slotProps={{
+        htmlInput: { inputMode: 'decimal' },
+        input: {
+          endAdornment: <InputAdornment position="end">{currencySymbol}</InputAdornment>,
+        },
+      }}
+      onChange={(event) => onChange(event.target.value)}
+      onBlur={handleBlur}
+    />
   )
 }

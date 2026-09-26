@@ -1,10 +1,17 @@
+import IconButton from '@mui/material/IconButton'
+import { X } from 'lucide-react'
 import type { CloseButtonProps } from './CloseButton.types'
-import './CloseButton.scss'
 
 export function CloseButton({ onClick, ariaLabel = 'Cerrar' }: CloseButtonProps) {
   return (
-    <button type="button" className="close-button" onClick={onClick} aria-label={ariaLabel}>
-      ×
-    </button>
+    <IconButton
+      type="button"
+      onClick={onClick}
+      aria-label={ariaLabel}
+      size="small"
+      sx={{ color: 'app.textSoft' }}
+    >
+      <X size={20} />
+    </IconButton>
   )
 }

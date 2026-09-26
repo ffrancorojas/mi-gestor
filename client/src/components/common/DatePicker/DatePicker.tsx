@@ -1,22 +1,23 @@
-import { CalendarDays } from 'lucide-react'
+import { DatePicker as MuiDatePicker } from '@mui/x-date-pickers/DatePicker'
+import dayjs from 'dayjs'
 import type { DatePickerProps } from './DatePicker.types'
-import './DatePicker.scss'
 
 export function DatePicker({ id, label, value, min, required = false, onChange }: DatePickerProps) {
   return (
-    <div className="date-picker">
-      <label htmlFor={id}>{label}</label>
-      <div className="date-picker-input">
-        <CalendarDays size={16} />
-        <input
-          id={id}
-          type="date"
-          value={value}
-          min={min}
-          required={required}
-          onChange={(event) => onChange(event.target.value)}
-        />
-      </div>
-    </div>
+    <MuiDatePicker
+      label={label}
+      value={value ? dayjs(value) : null}
+      minDate={min ? dayjs(min) : undefined}
+      format="DD/MM/YYYY"
+      onChange={(date) => onChange(date?.format('YYYY-MM-DD') ?? '')}
+      slotProps={{
+        textField: {
+          id,
+          required,
+          fullWidth: true,
+          size: 'small',
+        },
+      }}
+    />
   )
 }
