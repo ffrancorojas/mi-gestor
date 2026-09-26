@@ -1,8 +1,0 @@
-@use 'styles' as styles;
-
-.save-cancel-buttons {
-  display: flex;
-  justify-content: flex-end;
-  gap: styles.$small;
-  margin-top: styles.$extra-small;
-}

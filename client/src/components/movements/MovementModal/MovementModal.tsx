@@ -1,3 +1,6 @@
+import Box from '@mui/material/Box'
+import Dialog from '@mui/material/Dialog'
+import DialogContent from '@mui/material/DialogContent'
 import {
   CurrencyInput,
   DatePicker,
@@ -9,7 +12,6 @@ import {
 } from '@/components/common'
 import type { MovementModalProps } from './MovementModal.types'
 import { useMovementModal } from './useMovementModal'
-import './MovementModal.scss'
 
 export function MovementModal(props: MovementModalProps) {
   const { isOpen } = props
@@ -31,17 +33,18 @@ export function MovementModal(props: MovementModalProps) {
   if (!isOpen) return null
 
   return (
-    <div className="movement-modal-backdrop" onMouseDown={handleClose}>
-      <section
-        className="movement-modal"
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="new-movement-title"
-        onMouseDown={(event) => event.stopPropagation()}
-      >
+    <Dialog
+      open={isOpen}
+      onClose={handleClose}
+      aria-labelledby="new-movement-title"
+      fullWidth
+      maxWidth="xs"
+      scroll="paper"
+    >
+      <Box component="form" onSubmit={handleSubmit}>
         <ModalHeader title="Nuevo movimiento" titleId="new-movement-title" onClose={handleClose} />
 
-        <form className="movement-modal-form" onSubmit={handleSubmit}>
+        <DialogContent sx={{ display: 'grid', gap: 3, px: 6, pt: '0.25rem !important', pb: 5 }}>
           <TextInput
             id="movement-description"
             label="Descripción"
@@ -70,15 +73,12 @@ export function MovementModal(props: MovementModalProps) {
             onChange={setCategory}
           />
           {categories.length === 0 && (
-            <SmallText
-              className="movement-modal-category-help"
-              text="Crea primero una categoría desde el menú."
-            />
+            <SmallText text="Crea primero una categoría desde el menú." />
           )}
 
           <SaveCancelButtons onCancel={handleClose} saveDisabled={categories.length === 0} />
-        </form>
-      </section>
-    </div>
+        </DialogContent>
+      </Box>
+    </Dialog>
   )
 }
