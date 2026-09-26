@@ -2,25 +2,25 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 29px;
+  margin-bottom: 1.75rem;
 }
 .primary-button,
 .secondary-button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 7px;
+  gap: 0.5rem;
   border: 0;
-  border-radius: 10px;
-  padding: 11px 15px;
-  font-size: 12px;
+  border-radius: 0.75rem;
+  padding: 0.75rem 1rem;
+  font-size: 0.75rem;
   font-weight: 750;
   cursor: pointer;
 }
 .primary-button {
   background: #6559ee;
   color: #fff;
-  box-shadow: 0 7px 15px rgba(101, 89, 238, 0.18);
+  box-shadow: 0 0.5rem 1rem rgba(101, 89, 238, 0.18);
 }
 .secondary-button {
   background: #f2f2f7;
@@ -28,12 +28,12 @@
 }
 .filters-card {
   display: flex;
-  gap: 14px;
-  padding: 22px;
-  margin-bottom: 17px;
+  gap: 0.75rem;
+  padding: 1.5rem;
+  margin-bottom: 1rem;
   background: #fff;
   border: 1px solid #ededf4;
-  border-radius: 16px;
+  border-radius: 1rem;
 }
 .filter-field {
   flex: 1;
@@ -42,17 +42,17 @@
 .movement-modal label {
   display: block;
   color: #77798a;
-  font-size: 11px;
+  font-size: 0.75rem;
   font-weight: 700;
-  margin-bottom: 6px;
+  margin-bottom: 0.25rem;
 }
 .date-input {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 0.5rem;
   border: 1px solid #e4e4ed;
-  border-radius: 10px;
-  padding: 0 11px;
+  border-radius: 0.75rem;
+  padding: 0 0.75rem;
   color: #77798a;
 }
 .date-input input {
@@ -61,19 +61,19 @@
   border: 0;
   outline: 0;
   background: transparent;
-  padding: 11px 0;
+  padding: 0.75rem 0;
   color: #292b38;
-  font-size: 13px;
+  font-size: 0.875rem;
 }
 .results-count {
   color: #999baa;
-  font-size: 11px;
+  font-size: 0.75rem;
 }
 .empty-state {
   color: #9294a3;
   text-align: center;
-  font-size: 13px;
-  padding: 22px 0;
+  font-size: 0.875rem;
+  padding: 1.5rem 0;
 }
 .movements-list {
   margin-top: 0;
@@ -84,45 +84,45 @@
   inset: 0;
   display: grid;
   place-items: center;
-  padding: 20px;
+  padding: 1.25rem;
   background: rgba(28, 28, 42, 0.4);
 }
 .movement-modal {
-  width: min(100%, 390px);
-  padding: 23px;
+  width: min(100%, 24.5rem);
+  padding: 1.5rem;
   background: #fff;
-  border-radius: 17px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.18);
+  border-radius: 1rem;
+  box-shadow: 0 1.25rem 3.75rem rgba(0, 0, 0, 0.18);
 }
 .modal-heading {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 20px;
+  margin-bottom: 1.25rem;
 }
 .modal-heading h2 {
   margin: 0;
-  font-size: 19px;
+  font-size: 1.25rem;
 }
 .modal-close {
   border: 0;
   background: transparent;
   color: #858797;
-  font-size: 25px;
+  font-size: 1.5rem;
   line-height: 1;
   cursor: pointer;
 }
 .movement-modal form {
   display: grid;
-  gap: 14px;
+  gap: 0.75rem;
 }
 .movement-modal label input,
 .movement-modal label select {
   display: block;
   width: 100%;
   border: 1px solid #e2e2eb;
-  border-radius: 9px;
-  padding: 11px 12px;
+  border-radius: 0.5rem;
+  padding: 0.75rem;
   outline: 0;
   color: #292b38;
   background: #fff;
@@ -136,41 +136,41 @@
 }
 .category-help {
   color: #989aa8;
-  font-size: 11px;
+  font-size: 0.75rem;
   line-height: 1.4;
 }
 .modal-actions {
   display: flex;
   justify-content: flex-end;
-  gap: 8px;
-  margin-top: 4px;
+  gap: 0.5rem;
+  margin-top: 0.25rem;
 }
 .primary-button:disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }
-@media (max-width: 700px) {
+@media (max-width: 44rem) {
   .page-title-row {
     align-items: flex-start;
   }
   .page-title-row .primary-button {
-    padding: 10px;
+    padding: 0.75rem;
     font-size: 0;
   }
   .page-title-row .primary-button svg {
     margin: 0;
   }
   .filters-card {
-    gap: 10px;
-    padding: 15px;
+    gap: 0.5rem;
+    padding: 1rem;
   }
   .date-input {
-    padding: 0 8px;
+    padding: 0 0.5rem;
   }
   .date-input input {
-    font-size: 11px;
+    font-size: 0.75rem;
   }
   .movement-modal {
-    padding: 20px;
+    padding: 1.25rem;
   }
 }
