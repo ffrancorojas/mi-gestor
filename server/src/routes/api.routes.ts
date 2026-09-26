@@ -82,6 +82,15 @@ export async function apiRoutes(app: FastifyInstance) {
       })
       .parse(request.body)
 
+    const existingCategory = await prisma.category.findFirst({
+      where: {
+        userId: user.id,
+        name: { equals: body.name, mode: 'insensitive' },
+      },
+    })
+
+    if (existingCategory) return reply.code(409).send({ message: 'La categoría ya existe.' })
+
     const category = await prisma.category.create({
       data: { ...body, userId: user.id },
     })
@@ -125,6 +134,17 @@ export async function apiRoutes(app: FastifyInstance) {
       include: { account: true, category: true },
       orderBy: { occurredAt: 'desc' },
     })
+  })
+
+  app.delete('/movements/:id', async (request, reply) => {
+    const user = await getAuthenticatedUser(request)
+    const { id } = request.params as { id: string }
+    const movement = await prisma.movement.findFirst({ where: { id, userId: user.id } })
+
+    if (!movement) return reply.code(404).send({ message: 'Movimiento no encontrado.' })
+
+    await prisma.movement.delete({ where: { id: movement.id } })
+    return reply.code(204).send()
   })
 
   app.post('/movements', async (request, reply) => {
@@ -184,5 +204,35 @@ export async function apiRoutes(app: FastifyInstance) {
     })
 
     return reply.code(201).send(result)
+  })
+
+  app.get('/recurring-movements', async (request) => {
+    const user = await getAuthenticatedUser(request)
+    const query = request.query as { active?: string }
+    const active = query.active === undefined ? true : query.active !== 'false'
+
+    return prisma.recurringMovement.findMany({
+      where: { userId: user.id, active },
+      include: { account: true, category: true },
+      orderBy: { nextOccurrenceAt: 'asc' },
+    })
+  })
+
+  app.patch('/recurring-movements/:id', async (request, reply) => {
+    const user = await getAuthenticatedUser(request)
+    const { id } = request.params as { id: string }
+    const body = z.object({ active: z.boolean() }).parse(request.body)
+    const recurringMovement = await prisma.recurringMovement.findFirst({
+      where: { id, userId: user.id },
+    })
+
+    if (!recurringMovement)
+      return reply.code(404).send({ message: 'Movimiento recurrente no encontrado.' })
+
+    return prisma.recurringMovement.update({
+      where: { id: recurringMovement.id },
+      data: { active: body.active },
+      include: { account: true, category: true },
+    })
   })
 }

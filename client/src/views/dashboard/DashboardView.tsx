@@ -1,10 +1,34 @@
+import { useState } from 'react'
 import Avatar from '@mui/material/Avatar'
 import Box from '@mui/material/Box'
 import IconButton from '@mui/material/IconButton'
+import Menu from '@mui/material/Menu'
+import MenuItem from '@mui/material/MenuItem'
 import Typography from '@mui/material/Typography'
+import { LogOut } from 'lucide-react'
+import { useAuth } from '@/auth'
 import { BalanceCard, MetricCard, MovementsList } from '@/components/dashboard'
 
 export function DashboardView() {
+  const { user, signOut } = useAuth()
+  const [profileAnchor, setProfileAnchor] = useState<null | HTMLElement>(null)
+  const displayName = user?.displayName?.trim() ?? ''
+  const initials = displayName
+    ? displayName
+        .split(/\s+/)
+        .slice(0, 2)
+        .map((part) => part[0])
+        .join('')
+        .toUpperCase()
+    : (user?.email?.slice(0, 2).toUpperCase() ?? '??')
+  const today = new Intl.DateTimeFormat('es-ES', {
+    weekday: 'long',
+    day: 'numeric',
+    month: 'long',
+  }).format(new Date())
+
+  const handleProfileClose = () => setProfileAnchor(null)
+
   return (
     <>
       <Box
@@ -15,7 +39,7 @@ export function DashboardView() {
             variant="overline"
             sx={{ color: 'app.textSoft', fontWeight: 700, letterSpacing: '0.08em' }}
           >
-            Sábado, 26 de septiembre
+            {today}
           </Typography>
           <Typography
             variant="h1"
@@ -24,7 +48,14 @@ export function DashboardView() {
             Tu resumen
           </Typography>
         </Box>
-        <IconButton aria-label="Abrir perfil" sx={{ p: 0 }}>
+        <IconButton
+          aria-label="Abrir perfil"
+          aria-controls={profileAnchor ? 'profile-menu' : undefined}
+          aria-haspopup="true"
+          aria-expanded={profileAnchor ? 'true' : undefined}
+          onClick={(event) => setProfileAnchor(event.currentTarget)}
+          sx={{ p: 0 }}
+        >
           <Avatar
             sx={{
               width: '2.5rem',
@@ -35,11 +66,29 @@ export function DashboardView() {
               fontWeight: 800,
             }}
           >
-            FR
+            {initials}
           </Avatar>
         </IconButton>
+        <Menu
+          id="profile-menu"
+          anchorEl={profileAnchor}
+          open={Boolean(profileAnchor)}
+          onClose={handleProfileClose}
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+          transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+        >
+          <MenuItem
+            onClick={() => {
+              handleProfileClose()
+              void signOut()
+            }}
+          >
+            <LogOut size={18} style={{ marginRight: '0.5rem' }} />
+            Cerrar sesión
+          </MenuItem>
+        </Menu>
       </Box>
-      <BalanceCard />
+      <BalanceCard balance="0,00 €" variation="—" />
       <Box
         sx={{
           display: 'grid',
@@ -49,10 +98,10 @@ export function DashboardView() {
           '@media (max-width:44rem)': { gap: 2 },
         }}
       >
-        <MetricCard label="Ingresos este mes" value="2.450,00 €" change="+12,5%" tone="positive" />
-        <MetricCard label="Gastos este mes" value="1.120,30 €" change="-4,2%" tone="negative" />
+        <MetricCard label="Ingresos este mes" value="0,00 €" change="—" tone="positive" />
+        <MetricCard label="Gastos este mes" value="0,00 €" change="—" tone="negative" />
       </Box>
-      <MovementsList />
+      <MovementsList movements={[]} />
     </>
   )
 }

@@ -1,34 +1,14 @@
-import { type FormEvent, useCallback, useMemo, useState } from 'react'
-import { CATEGORY_PREVIEW_DATA, getCurrentDate, parseCurrencyValue } from '@/tools'
+import { type FormEvent, useCallback, useState } from 'react'
+import { getCurrentDate, parseCurrencyValue } from '@/tools'
 import type { MovementModalProps } from './MovementModal.types'
 
-const getStoredCategories = () => {
-  try {
-    const storedCategories: unknown = JSON.parse(
-      localStorage.getItem('mi-gestor-categories') ?? '[]',
-    )
-
-    if (
-      Array.isArray(storedCategories) &&
-      storedCategories.length > 0 &&
-      storedCategories.every((category) => typeof category === 'string')
-    ) {
-      return storedCategories
-    }
-
-    return CATEGORY_PREVIEW_DATA
-  } catch {
-    return CATEGORY_PREVIEW_DATA
-  }
-}
-
-export function useMovementModal({ isOpen, onClose, onSave }: MovementModalProps) {
+export function useMovementModal({ onClose, onSave }: MovementModalProps) {
   const [description, setDescription] = useState('')
   const [amount, setAmount] = useState('')
   const [date, setDate] = useState(getCurrentDate)
   const [category, setCategory] = useState('')
   const [isRecurring, setIsRecurring] = useState(false)
-  const categories = useMemo(() => (isOpen ? getStoredCategories() : []), [isOpen])
+  const categories: string[] = []
 
   const resetForm = useCallback(() => {
     setDescription('')

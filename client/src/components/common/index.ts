@@ -1,5 +1,6 @@
 export * from './button'
 export * from './close-button'
+export * from './confirmation-dialog'
 export * from './currency-input'
 export * from './date-picker'
 export * from './dropdown'

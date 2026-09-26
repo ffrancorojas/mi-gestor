@@ -3,7 +3,7 @@ import Paper from '@mui/material/Paper'
 import Typography from '@mui/material/Typography'
 import type { BalanceCardProps } from './BalanceCard.types'
 
-export function BalanceCard({ balance = '4.280,50 €', variation = '+8,4%' }: BalanceCardProps) {
+export function BalanceCard({ balance, variation }: BalanceCardProps) {
   return (
     <Paper
       component="section"

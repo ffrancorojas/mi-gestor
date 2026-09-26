@@ -15,6 +15,12 @@ const MovementsView = lazy(() =>
 const PlaceholderView = lazy(() =>
   import('@/views/placeholder').then(({ PlaceholderView: View }) => ({ default: View })),
 )
+const RecurringView = lazy(() =>
+  import('@/views/recurring').then(({ RecurringView: View }) => ({ default: View })),
+)
+const CategoriesView = lazy(() =>
+  import('@/views/categories').then(({ CategoriesView: View }) => ({ default: View })),
+)
 
 export function App() {
   const { isConfigured, isLoading, user } = useAuth()
@@ -43,6 +49,8 @@ export function App() {
           <Route element={<AppShell />}>
             <Route path="/" element={<DashboardView />} />
             <Route path="/movimientos" element={<MovementsView />} />
+            <Route path="/recurrentes" element={<RecurringView />} />
+            <Route path="/categorias" element={<CategoriesView />} />
             <Route path="*" element={<PlaceholderView />} />
           </Route>
         </Routes>

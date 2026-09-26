@@ -1,12 +1,14 @@
 import Box from '@mui/material/Box'
+import IconButton from '@mui/material/IconButton'
 import Paper from '@mui/material/Paper'
 import Typography from '@mui/material/Typography'
+import { Trash2 } from 'lucide-react'
 import type { MovementCardProps } from './MovementCard.types'
 
 const formatAmount = (amount: number) =>
   (amount >= 0 ? '+' : '') + amount.toLocaleString('es-ES', { style: 'currency', currency: 'EUR' })
 
-export function MovementCard({ movement }: MovementCardProps) {
+export function MovementCard({ movement, onDelete }: MovementCardProps) {
   const detail = `${new Date(movement.date + 'T12:00:00').toLocaleDateString('es-ES')} · ${movement.category}`
   const iconAppearance =
     movement.iconClass === 'salary'
@@ -51,6 +53,16 @@ export function MovementCard({ movement }: MovementCardProps) {
       >
         {formatAmount(movement.amount)}
       </Typography>
+      {onDelete && (
+        <IconButton
+          aria-label={`Eliminar movimiento ${movement.description}`}
+          color="error"
+          onClick={() => onDelete(movement)}
+          size="small"
+        >
+          <Trash2 size={18} />
+        </IconButton>
+      )}
     </Paper>
   )
 }

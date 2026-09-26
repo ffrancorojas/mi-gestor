@@ -6,34 +6,7 @@ import { NavLink } from 'react-router-dom'
 import { MovementItem } from './movement-item'
 import type { MovementsListProps } from './MovementsList.types'
 
-const defaultMovements = [
-  {
-    description: 'Restaurante',
-    detail: 'Hoy, 14:32 · Alimentación',
-    amount: '-32,50 €',
-    tone: 'negative' as const,
-    icon: '🍽️',
-    iconClass: 'food',
-  },
-  {
-    description: 'Alquiler',
-    detail: '1 de septiembre · Vivienda',
-    amount: '-850,00 €',
-    tone: 'negative' as const,
-    icon: '⌂',
-    iconClass: 'home-icon',
-  },
-  {
-    description: 'Nómina',
-    detail: '1 de septiembre · Ingresos',
-    amount: '+2.450,00 €',
-    tone: 'positive' as const,
-    icon: '↗',
-    iconClass: 'salary',
-  },
-]
-
-export function MovementsList({ movements = defaultMovements }: MovementsListProps) {
+export function MovementsList({ movements }: MovementsListProps) {
   return (
     <Paper component="section" variant="outlined" sx={{ p: 6, mt: 4 }}>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
@@ -42,9 +15,15 @@ export function MovementsList({ movements = defaultMovements }: MovementsListPro
           Ver todos
         </Link>
       </Box>
-      {movements.map((movement) => (
-        <MovementItem key={movement.description + movement.detail} {...movement} />
-      ))}
+      {movements.length === 0 ? (
+        <Typography sx={{ py: 6, color: 'app.textSoft', fontSize: '0.875rem' }}>
+          Todavía no hay movimientos.
+        </Typography>
+      ) : (
+        movements.map((movement) => (
+          <MovementItem key={movement.description + movement.detail} {...movement} />
+        ))
+      )}
     </Paper>
   )
 }

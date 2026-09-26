@@ -1,5 +1,5 @@
 export type Movement = {
-  id: number
+  id: number | string
   description: string
   category: string
   date: string
@@ -11,4 +11,5 @@ export type Movement = {
 
 export type MovementListProps = {
   movements: Movement[]
+  onDelete?: (movement: Movement) => void
 }

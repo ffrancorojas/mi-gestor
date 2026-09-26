@@ -35,8 +35,6 @@ export function MovementModal(props: MovementModalProps) {
     handleSubmit,
   } = useMovementModal(props)
 
-  if (!isOpen) return null
-
   return (
     <Dialog
       open={isOpen}
