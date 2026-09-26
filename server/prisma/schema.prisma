@@ -7,37 +7,92 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model User {
+  id                 String              @id @default(cuid())
+  firebaseUid        String              @unique
+  email              String?
+  displayName        String?
+  photoUrl           String?
+  accounts           Account[]
+  categories         Category[]
+  movements          Movement[]
+  recurringMovements RecurringMovement[]
+  createdAt          DateTime            @default(now())
+  updatedAt          DateTime            @updatedAt
+}
+
 model Account {
-  id           String        @id @default(cuid())
-  name         String
-  type         AccountType   @default(BANK)
-  initialCents Int           @default(0)
-  createdAt    DateTime      @default(now())
-  transactions Transaction[]
+  id                  String              @id @default(cuid())
+  userId              String
+  name                String
+  type                AccountType         @default(BANK)
+  currency            String              @default("EUR")
+  initialBalanceCents Int                 @default(0)
+  user                User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  movements           Movement[]
+  recurringMovements  RecurringMovement[]
+  createdAt           DateTime            @default(now())
+  updatedAt           DateTime            @updatedAt
+
+  @@index([userId])
 }
 
-model Transaction {
-  id          String           @id @default(cuid())
-  accountId   String
-  amountCents Int
+model Category {
+  id                 String              @id @default(cuid())
+  userId             String
+  name               String
+  color              String?
+  icon               String?
+  archived           Boolean             @default(false)
+  user               User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  movements          Movement[]
+  recurringMovements RecurringMovement[]
+  createdAt          DateTime            @default(now())
+  updatedAt          DateTime            @updatedAt
+
+  @@unique([userId, name])
+  @@index([userId, archived])
+}
+
+model Movement {
+  id          String       @id @default(cuid())
+  userId      String
+  accountId   String?
+  categoryId  String?
   description String
-  category    String?
+  amountCents Int
+  kind        MovementKind
   occurredAt  DateTime
-  recurringId String?
-  account     Account          @relation(fields: [accountId], references: [id], onDelete: Cascade)
-  recurring   RecurringExpense? @relation(fields: [recurringId], references: [id], onDelete: SetNull)
-  createdAt   DateTime         @default(now())
+  notes       String?
+  user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  account     Account?     @relation(fields: [accountId], references: [id], onDelete: SetNull)
+  category    Category?    @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  @@index([userId, occurredAt])
+  @@index([userId, accountId, occurredAt])
+  @@index([userId, categoryId, occurredAt])
 }
 
-model RecurringExpense {
-  id           String        @id @default(cuid())
-  name         String
-  amountCents  Int
-  frequency    Frequency
-  nextDate     DateTime
-  active       Boolean       @default(true)
-  transactions Transaction[]
-  createdAt    DateTime      @default(now())
+model RecurringMovement {
+  id               String       @id @default(cuid())
+  userId           String
+  accountId        String?
+  categoryId       String?
+  description      String
+  amountCents      Int
+  kind             MovementKind @default(EXPENSE)
+  frequency        Frequency
+  nextOccurrenceAt DateTime
+  active           Boolean      @default(true)
+  user             User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  account          Account?     @relation(fields: [accountId], references: [id], onDelete: SetNull)
+  category         Category?    @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
+
+  @@index([userId, active, nextOccurrenceAt])
 }
 
 enum AccountType {
@@ -45,6 +100,11 @@ enum AccountType {
   CASH
   CARD
   SAVINGS
+}
+
+enum MovementKind {
+  INCOME
+  EXPENSE
 }
 
 enum Frequency {

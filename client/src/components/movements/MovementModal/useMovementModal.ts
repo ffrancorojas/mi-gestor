@@ -27,6 +27,7 @@ export function useMovementModal({ isOpen, onClose, onSave }: MovementModalProps
   const [amount, setAmount] = useState('')
   const [date, setDate] = useState(getCurrentDate)
   const [category, setCategory] = useState('')
+  const [isRecurring, setIsRecurring] = useState(false)
   const categories = useMemo(() => (isOpen ? getStoredCategories() : []), [isOpen])
 
   const resetForm = useCallback(() => {
@@ -34,6 +35,7 @@ export function useMovementModal({ isOpen, onClose, onSave }: MovementModalProps
     setAmount('')
     setDate(getCurrentDate())
     setCategory('')
+    setIsRecurring(false)
   }, [])
 
   const handleClose = useCallback(() => {
@@ -63,10 +65,11 @@ export function useMovementModal({ isOpen, onClose, onSave }: MovementModalProps
         amount: -Math.abs(numericAmount),
         icon: '•',
         iconClass: 'food',
+        isRecurring,
       })
       handleClose()
     },
-    [amount, category, date, description, handleClose, onSave],
+    [amount, category, date, description, handleClose, isRecurring, onSave],
   )
 
   return {
@@ -78,6 +81,8 @@ export function useMovementModal({ isOpen, onClose, onSave }: MovementModalProps
     setDate,
     category,
     setCategory,
+    isRecurring,
+    setIsRecurring,
     categories,
     categoryOptions: categories.map((item) => ({ label: item, value: item })),
     handleClose,

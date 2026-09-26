@@ -6,6 +6,7 @@ export type Movement = {
   amount: number
   icon: string
   iconClass: string
+  isRecurring: boolean
 }
 
 export type MovementListProps = {

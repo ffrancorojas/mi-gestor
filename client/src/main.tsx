@@ -6,6 +6,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { esES as datePickersEsES } from '@mui/x-date-pickers/locales'
 import 'dayjs/locale/es'
 import { App } from '@/app'
+import { AuthProvider } from '@/auth'
 import { appTheme } from '@/theme'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
@@ -17,7 +18,9 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         localeText={datePickersEsES.components.MuiLocalizationProvider.defaultProps.localeText}
       >
         <CssBaseline />
-        <App />
+        <AuthProvider>
+          <App />
+        </AuthProvider>
       </LocalizationProvider>
     </ThemeProvider>
   </React.StrictMode>,

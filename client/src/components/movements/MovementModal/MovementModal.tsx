@@ -1,6 +1,8 @@
 import Box from '@mui/material/Box'
 import Dialog from '@mui/material/Dialog'
 import DialogContent from '@mui/material/DialogContent'
+import FormControlLabel from '@mui/material/FormControlLabel'
+import Switch from '@mui/material/Switch'
 import Typography from '@mui/material/Typography'
 import {
   CloseButton,
@@ -25,6 +27,8 @@ export function MovementModal(props: MovementModalProps) {
     setDate,
     category,
     setCategory,
+    isRecurring,
+    setIsRecurring,
     categories,
     categoryOptions,
     handleClose,
@@ -81,6 +85,17 @@ export function MovementModal(props: MovementModalProps) {
               Crea primero una categoría desde el menú.
             </Typography>
           )}
+
+          <FormControlLabel
+            control={
+              <Switch
+                checked={isRecurring}
+                onChange={(event) => setIsRecurring(event.target.checked)}
+              />
+            }
+            label="Repetir cada mes"
+            sx={{ ml: 0, color: 'app.textSoft' }}
+          />
 
           <SaveCancelButtons onCancel={handleClose} saveDisabled={categories.length === 0} />
         </DialogContent>
