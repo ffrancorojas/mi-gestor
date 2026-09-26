@@ -1,25 +1,29 @@
+@use '../../styles/colors' as colors;
+@use '../../styles/spacing' as spacing;
+@use '../../styles/typography' as typography;
+
 .welcome-row {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  margin-bottom: 1.75rem;
+  margin-bottom: spacing.$double-large;
 }
 .eyebrow {
-  color: #9799a8;
-  font-size: 0.75rem;
+  color: colors.$text-soft;
+  font-size: typography.$size-small;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.08em;
 }
 h1 {
   margin: 0.5rem 0 0;
-  font-size: 2.25rem;
+  font-size: typography.$size-heading;
   letter-spacing: -0.05em;
 }
 .avatar {
   border: 0;
-  color: #6559ee;
-  background: #e9e7ff;
+  color: colors.$primary;
+  background: colors.$primary-light;
   width: 2.5rem;
   height: 2.5rem;
   border-radius: 50%;
@@ -28,8 +32,8 @@ h1 {
 .metric-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 1rem;
-  margin: 1rem 0;
+  gap: spacing.$large;
+  margin: spacing.$large 0;
 }
 @media (max-width: 44rem) {
   h1 {

@@ -1,12 +1,16 @@
+@use '../../styles/colors' as colors;
+@use '../../styles/spacing' as spacing;
+@use '../../styles/typography' as typography;
+
 .placeholder-page {
-  padding-top: 1.25rem;
+  padding-top: spacing.$large;
 }
 .placeholder-page h2 {
-  font-size: 2.25rem;
+  font-size: typography.$size-heading;
   letter-spacing: -0.05em;
-  margin: 0.5rem 0;
+  margin: spacing.$small 0;
   text-transform: capitalize;
 }
 .placeholder-page p {
-  color: #858797;
+  color: colors.$text-muted;
 }

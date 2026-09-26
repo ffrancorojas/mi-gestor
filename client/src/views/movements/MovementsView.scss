@@ -1,8 +1,14 @@
+@use '../../styles/colors' as colors;
+@use '../../styles/radius' as radius;
+@use '../../styles/shadows' as shadows;
+@use '../../styles/spacing' as spacing;
+@use '../../styles/typography' as typography;
+
 .page-title-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1.75rem;
+  margin-bottom: spacing.$double-large;
 }
 .primary-button,
 .secondary-button {
@@ -11,29 +17,29 @@
   justify-content: center;
   gap: 0.5rem;
   border: 0;
-  border-radius: 0.75rem;
-  padding: 0.75rem 1rem;
-  font-size: 0.75rem;
+  border-radius: radius.$medium;
+  padding: spacing.$medium spacing.$large;
+  font-size: typography.$size-small;
   font-weight: 750;
   cursor: pointer;
 }
 .primary-button {
-  background: #6559ee;
-  color: #fff;
-  box-shadow: 0 0.5rem 1rem rgba(101, 89, 238, 0.18);
+  background: colors.$primary;
+  color: colors.$surface;
+  box-shadow: shadows.$button;
 }
 .secondary-button {
-  background: #f2f2f7;
-  color: #555767;
+  background: colors.$surface-muted;
+  color: colors.$text-secondary;
 }
 .filters-card {
   display: flex;
   gap: 0.75rem;
-  padding: 1.5rem;
-  margin-bottom: 1rem;
-  background: #fff;
-  border: 1px solid #ededf4;
-  border-radius: 1rem;
+  padding: spacing.$double-large;
+  margin-bottom: spacing.$large;
+  background: colors.$surface;
+  border: 1px solid colors.$border;
+  border-radius: radius.$large;
 }
 .filter-field {
   flex: 1;
@@ -41,8 +47,8 @@
 .filter-field label,
 .movement-modal label {
   display: block;
-  color: #77798a;
-  font-size: 0.75rem;
+  color: colors.$text-muted;
+  font-size: typography.$size-small;
   font-weight: 700;
   margin-bottom: 0.25rem;
 }
@@ -50,10 +56,10 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  border: 1px solid #e4e4ed;
+  border: 1px solid colors.$border-soft;
   border-radius: 0.75rem;
   padding: 0 0.75rem;
-  color: #77798a;
+  color: colors.$text-muted;
 }
 .date-input input {
   width: 100%;
@@ -62,15 +68,15 @@
   outline: 0;
   background: transparent;
   padding: 0.75rem 0;
-  color: #292b38;
-  font-size: 0.875rem;
+  color: colors.$text-dark;
+  font-size: typography.$size-regular;
 }
 .results-count {
-  color: #999baa;
-  font-size: 0.75rem;
+  color: colors.$text-soft;
+  font-size: typography.$size-small;
 }
 .empty-state {
-  color: #9294a3;
+  color: colors.$text-soft;
   text-align: center;
   font-size: 0.875rem;
   padding: 1.5rem 0;
@@ -85,14 +91,14 @@
   display: grid;
   place-items: center;
   padding: 1.25rem;
-  background: rgba(28, 28, 42, 0.4);
+  background: colors.$overlay;
 }
 .movement-modal {
   width: min(100%, 24.5rem);
   padding: 1.5rem;
-  background: #fff;
-  border-radius: 1rem;
-  box-shadow: 0 1.25rem 3.75rem rgba(0, 0, 0, 0.18);
+  background: colors.$surface;
+  border-radius: radius.$large;
+  box-shadow: shadows.$modal;
 }
 .modal-heading {
   display: flex;
@@ -107,7 +113,7 @@
 .modal-close {
   border: 0;
   background: transparent;
-  color: #858797;
+  color: colors.$text-muted;
   font-size: 1.5rem;
   line-height: 1;
   cursor: pointer;
@@ -120,23 +126,23 @@
 .movement-modal label select {
   display: block;
   width: 100%;
-  border: 1px solid #e2e2eb;
+  border: 1px solid colors.$border-input;
   border-radius: 0.5rem;
   padding: 0.75rem;
   outline: 0;
-  color: #292b38;
-  background: #fff;
+  color: colors.$text-dark;
+  background: colors.$surface;
 }
 .movement-modal label select:disabled {
-  color: #999baa;
-  background: #f7f7fa;
+  color: colors.$text-soft;
+  background: colors.$background;
 }
 .movement-modal label input:focus {
-  border-color: #6559ee;
+  border-color: colors.$primary;
 }
 .category-help {
-  color: #989aa8;
-  font-size: 0.75rem;
+  color: colors.$text-soft;
+  font-size: typography.$size-small;
   line-height: 1.4;
 }
 .modal-actions {

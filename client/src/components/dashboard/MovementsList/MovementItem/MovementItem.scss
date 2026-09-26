@@ -1,9 +1,14 @@
+@use '../../../../styles/colors' as colors;
+@use '../../../../styles/radius' as radius;
+@use '../../../../styles/spacing' as spacing;
+@use '../../../../styles/typography' as typography;
+
 .movement-item {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  padding: 1rem 0;
-  border-bottom: 1px solid #f0f0f5;
+  gap: spacing.$medium;
+  padding: spacing.$large 0;
+  border-bottom: 1px solid colors.$border;
 }
 .movement-item:last-child {
   border-bottom: 0;
@@ -14,17 +19,17 @@
   display: grid;
   place-items: center;
   border-radius: 0.75rem;
-  background: #fff1df;
-  font-size: 1.125rem;
+  background: colors.$food-background;
+  font-size: typography.$size-large;
 }
 .movement-icon.home-icon {
-  background: #e9e7ff;
-  color: #6559ee;
+  background: colors.$primary-light;
+  color: colors.$primary;
   font-size: 1.5rem;
 }
 .movement-icon.salary {
-  background: #e0f8ec;
-  color: #16a267;
+  background: colors.$positive-background;
+  color: colors.$positive;
   font-size: 1.25rem;
 }
 .movement-item-content {
@@ -35,19 +40,19 @@
   display: block;
 }
 .movement-item strong {
-  font-size: 0.875rem;
+  font-size: typography.$size-regular;
 }
 .movement-item small {
-  margin-top: 0.25rem;
-  color: #989aa8;
-  font-size: 0.75rem;
+  margin-top: spacing.$extra-small;
+  color: colors.$text-soft;
+  font-size: typography.$size-small;
 }
 .movement-item b {
-  font-size: 0.875rem;
+  font-size: typography.$size-regular;
 }
 .movement-item .positive {
-  color: #16a267;
+  color: colors.$positive;
 }
 .movement-item .negative {
-  color: #ed6e77;
+  color: colors.$negative;
 }

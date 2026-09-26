@@ -1,17 +1,22 @@
+@use '../../../styles/colors' as colors;
+@use '../../../styles/radius' as radius;
+@use '../../../styles/spacing' as spacing;
+@use '../../../styles/typography' as typography;
+
 .menu-item {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  padding: 0.75rem;
-  margin: 0.25rem 0;
-  color: #858797;
-  border-radius: 0.75rem;
-  font-size: 0.875rem;
+  gap: spacing.$medium;
+  padding: spacing.$medium;
+  margin: spacing.$extra-small 0;
+  color: colors.$text-muted;
+  border-radius: radius.$medium;
+  font-size: typography.$size-regular;
   font-weight: 600;
   transition: 0.2s;
 }
 .menu-item:hover,
 .menu-item.active {
-  color: #6559ee;
-  background: #f1efff;
+  color: colors.$primary;
+  background: colors.$primary-soft;
 }
