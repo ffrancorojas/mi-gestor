@@ -6,7 +6,6 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import 'dayjs/locale/es'
 import { App } from '@/app'
 import { appTheme } from '@/theme'
-import '@/styles/global.scss'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
