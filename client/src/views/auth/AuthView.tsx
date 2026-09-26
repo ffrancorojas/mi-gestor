@@ -1,3 +1,5 @@
+import { useState } from 'react'
+import Alert from '@mui/material/Alert'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Paper from '@mui/material/Paper'
@@ -7,6 +9,17 @@ import { useAuth } from '@/auth'
 
 export function AuthView({ configuration = false }: { configuration?: boolean }) {
   const { signInWithGoogle } = useAuth()
+  const [error, setError] = useState('')
+
+  const handleGoogleSignIn = async () => {
+    setError('')
+
+    try {
+      await signInWithGoogle()
+    } catch (reason) {
+      setError(reason instanceof Error ? reason.message : 'No se pudo iniciar sesión con Google.')
+    }
+  }
 
   return (
     <Box sx={{ display: 'grid', minHeight: '100vh', placeItems: 'center', p: 5 }}>
@@ -20,14 +33,21 @@ export function AuthView({ configuration = false }: { configuration?: boolean })
             : 'Gestiona tus cuentas y movimientos de forma sencilla.'}
         </Typography>
         {!configuration && (
-          <Button
-            fullWidth
-            variant="contained"
-            startIcon={<LogIn size={18} />}
-            onClick={() => void signInWithGoogle()}
-          >
-            Continuar con Google
-          </Button>
+          <>
+            {error && (
+              <Alert severity="error" sx={{ mb: 3, textAlign: 'left' }}>
+                {error}
+              </Alert>
+            )}
+            <Button
+              fullWidth
+              variant="contained"
+              startIcon={<LogIn size={18} />}
+              onClick={() => void handleGoogleSignIn()}
+            >
+              Continuar con Google
+            </Button>
+          </>
         )}
       </Paper>
     </Box>

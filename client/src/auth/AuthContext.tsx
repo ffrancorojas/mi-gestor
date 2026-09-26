@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import {
   GoogleAuthProvider,
   onAuthStateChanged,
-  signInWithRedirect,
+  signInWithPopup,
   signOut as firebaseSignOut,
   type User,
 } from 'firebase/auth'
@@ -30,7 +30,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       isLoading,
       signInWithGoogle: async () => {
         if (!firebaseAuth) throw new Error('Firebase no está configurado.')
-        await signInWithRedirect(firebaseAuth, new GoogleAuthProvider())
+        await signInWithPopup(firebaseAuth, new GoogleAuthProvider())
       },
       signOut: async () => {
         if (firebaseAuth) await firebaseSignOut(firebaseAuth)
