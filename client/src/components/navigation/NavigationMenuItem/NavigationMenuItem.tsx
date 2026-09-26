@@ -1,15 +1,35 @@
+import ListItemButton from '@mui/material/ListItemButton'
+import ListItemIcon from '@mui/material/ListItemIcon'
+import ListItemText from '@mui/material/ListItemText'
 import { NavLink } from 'react-router-dom'
 import type { NavigationMenuItemProps } from './NavigationMenuItem.types'
-import './NavigationMenuItem.scss'
 
-export function NavigationMenuItem({ label, icon: Icon, to }: NavigationMenuItemProps) {
+export function NavigationMenuItem({ label, icon: Icon, to, onNavigate }: NavigationMenuItemProps) {
   return (
-    <NavLink
+    <ListItemButton
+      component={NavLink}
       to={to}
-      className={({ isActive }) => 'navigation-menu-item ' + (isActive ? 'active' : '')}
+      onClick={onNavigate}
+      sx={{
+        gap: 3,
+        px: 3,
+        py: 3,
+        my: 1,
+        borderRadius: 3,
+        color: 'text.secondary',
+        '&:hover, &.active': {
+          color: 'primary.main',
+          backgroundColor: 'app.primarySoft',
+        },
+      }}
     >
-      <Icon size={20} />
-      <span>{label}</span>
-    </NavLink>
+      <ListItemIcon sx={{ minWidth: 0, color: 'inherit' }}>
+        <Icon size={20} />
+      </ListItemIcon>
+      <ListItemText
+        primary={label}
+        slotProps={{ primary: { sx: { fontSize: '0.875rem', fontWeight: 600 } } }}
+      />
+    </ListItemButton>
   )
 }

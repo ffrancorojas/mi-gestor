@@ -1,4 +1,12 @@
 import { useState } from 'react'
+import AppBar from '@mui/material/AppBar'
+import Box from '@mui/material/Box'
+import Drawer from '@mui/material/Drawer'
+import IconButton from '@mui/material/IconButton'
+import List from '@mui/material/List'
+import Toolbar from '@mui/material/Toolbar'
+import Typography from '@mui/material/Typography'
+import useMediaQuery from '@mui/material/useMediaQuery'
 import { Outlet } from 'react-router-dom'
 import { Menu, X } from 'lucide-react'
 import {
@@ -6,47 +14,108 @@ import {
   navigationItems,
   settingsNavigationItem,
 } from '@/components/navigation'
-import './AppShell.scss'
+
+const drawerWidth = '15.5rem'
 
 export function AppShell() {
   const [menuOpen, setMenuOpen] = useState(false)
-  return (
-    <div className="app-shell">
-      {menuOpen && (
-        <button className="backdrop" aria-label="Cerrar menú" onClick={() => setMenuOpen(false)} />
-      )}
-      <aside className={'sidebar ' + (menuOpen ? 'open' : '')}>
-        <div className="brand">
-          <div className="brand-mark">M</div>
-          <span>mi gestor</span>
-          <button
-            className="close-menu"
-            onClick={() => setMenuOpen(false)}
-            aria-label="Cerrar menú"
-          >
+  const isMobile = useMediaQuery('(max-width:44rem)')
+  const closeMenu = () => setMenuOpen(false)
+
+  const drawerContent = (
+    <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%', p: 3 }}>
+      <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, px: 2, pb: 8 }}>
+        <Box
+          sx={{
+            display: 'grid',
+            placeItems: 'center',
+            width: '2rem',
+            height: '2rem',
+            borderRadius: 3,
+            backgroundColor: 'primary.main',
+            color: 'primary.contrastText',
+            fontWeight: 700,
+          }}
+        >
+          M
+        </Box>
+        <Typography sx={{ fontSize: '1.25rem', fontWeight: 750, letterSpacing: '-0.04em' }}>
+          mi gestor
+        </Typography>
+        {isMobile && (
+          <IconButton sx={{ ml: 'auto' }} onClick={closeMenu} aria-label="Cerrar menú">
             <X size={21} />
-          </button>
-        </div>
-        <nav>
-          {navigationItems.map((item) => (
-            <NavigationMenuItem key={item.to} {...item} />
-          ))}
-        </nav>
-        <div className="sidebar-footer">
-          <NavigationMenuItem {...settingsNavigationItem} />
-        </div>
-      </aside>
-      <main className="main-content">
-        <header className="topbar">
-          <button className="hamburger" onClick={() => setMenuOpen(true)} aria-label="Abrir menú">
-            <Menu size={24} />
-          </button>
-          <span className="mobile-title">mi gestor</span>
-        </header>
-        <div className="page-content">
+          </IconButton>
+        )}
+      </Box>
+
+      <List component="nav" disablePadding>
+        {navigationItems.map((item) => (
+          <NavigationMenuItem key={item.to} {...item} onNavigate={closeMenu} />
+        ))}
+      </List>
+
+      <List component="div" disablePadding sx={{ mt: 'auto' }}>
+        <NavigationMenuItem {...settingsNavigationItem} onNavigate={closeMenu} />
+      </List>
+    </Box>
+  )
+
+  return (
+    <Box sx={{ display: 'flex', minHeight: '100vh' }}>
+      {isMobile && (
+        <AppBar
+          position="fixed"
+          color="inherit"
+          elevation={0}
+          sx={{ borderBottom: 1, borderColor: 'divider', backgroundColor: 'rgba(255,255,255,0.9)' }}
+        >
+          <Toolbar sx={{ minHeight: '4rem !important', gap: 3, px: 5 }}>
+            <IconButton onClick={() => setMenuOpen(true)} aria-label="Abrir menú" edge="start">
+              <Menu size={24} />
+            </IconButton>
+            <Typography sx={{ fontWeight: 750, letterSpacing: '-0.04em' }}>mi gestor</Typography>
+          </Toolbar>
+        </AppBar>
+      )}
+
+      <Drawer
+        variant={isMobile ? 'temporary' : 'permanent'}
+        open={isMobile ? menuOpen : true}
+        onClose={closeMenu}
+        ModalProps={{ keepMounted: true }}
+        sx={{
+          width: isMobile ? 0 : drawerWidth,
+          flexShrink: 0,
+          '& .MuiDrawer-paper': {
+            width: drawerWidth,
+            boxSizing: 'border-box',
+            borderColor: 'divider',
+          },
+        }}
+      >
+        {drawerContent}
+      </Drawer>
+
+      <Box component="main" sx={{ flex: 1, minWidth: 0 }}>
+        {isMobile && <Toolbar sx={{ minHeight: '4rem !important' }} />}
+        <Box
+          sx={{
+            maxWidth: '57.5rem',
+            mx: 'auto',
+            px: 8,
+            pt: 12,
+            pb: 20,
+            '@media (max-width:44rem)': {
+              px: 5,
+              pt: 8,
+              pb: 12,
+            },
+          }}
+        >
           <Outlet />
-        </div>
-      </main>
-    </div>
+        </Box>
+      </Box>
+    </Box>
   )
 }
