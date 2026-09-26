@@ -1,0 +1,28 @@
+@use 'styles' as styles;
+
+.new-movement-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: styles.$small;
+  padding: styles.$medium styles.$large;
+  border: 0;
+  border-radius: styles.$radius-medium;
+  background: styles.$primary;
+  color: styles.$surface;
+  box-shadow: styles.$button;
+  font-size: styles.$size-small;
+  font-weight: 750;
+  cursor: pointer;
+}
+
+@media (max-width: 44rem) {
+  .new-movement-button {
+    padding: 0.75rem;
+    font-size: 0;
+  }
+
+  .new-movement-button svg {
+    margin: 0;
+  }
+}
