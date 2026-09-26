@@ -136,7 +136,7 @@ export function MovementsView() {
           filteredMovements.map((movement) => (
             <div className="movement" key={movement.id}>
               <div className={'movement-icon ' + movement.iconClass}>{movement.icon}</div>
-              <div>
+              <div className="movement-content">
                 <strong>{movement.description}</strong>
                 <small>
                   {new Date(movement.date + 'T12:00:00').toLocaleDateString('es-ES')} ·{' '}
