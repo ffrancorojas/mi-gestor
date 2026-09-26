@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react'
-import { getCurrentDate, getFirstDayOfCurrentMonth } from './MovementsView.tools'
+import { getCurrentDate, getFirstDayOfCurrentMonth } from '@/tools'
 
 export function useMovementsView() {
   const [from, setFrom] = useState(getFirstDayOfCurrentMonth)

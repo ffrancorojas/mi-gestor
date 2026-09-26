@@ -1,5 +1,6 @@
 export { MovementList } from './MovementList'
 export type { Movement, MovementListProps } from './MovementList'
+export * from './MovementModal'
 export * from './MovementsFilters'
 export * from './MovementsHeader'
 export * from './MovementsSectionHeader'
