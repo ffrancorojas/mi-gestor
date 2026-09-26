@@ -1,12 +1,24 @@
 import { type FormEvent, useCallback, useMemo, useState } from 'react'
-import { getCurrentDate, parseCurrencyValue } from '@/tools'
+import { CATEGORY_PREVIEW_DATA, getCurrentDate, parseCurrencyValue } from '@/tools'
 import type { MovementModalProps } from './MovementModal.types'
 
 const getStoredCategories = () => {
   try {
-    return JSON.parse(localStorage.getItem('mi-gestor-categories') ?? '[]') as string[]
+    const storedCategories: unknown = JSON.parse(
+      localStorage.getItem('mi-gestor-categories') ?? '[]',
+    )
+
+    if (
+      Array.isArray(storedCategories) &&
+      storedCategories.length > 0 &&
+      storedCategories.every((category) => typeof category === 'string')
+    ) {
+      return storedCategories
+    }
+
+    return CATEGORY_PREVIEW_DATA
   } catch {
-    return []
+    return CATEGORY_PREVIEW_DATA
   }
 }
 
