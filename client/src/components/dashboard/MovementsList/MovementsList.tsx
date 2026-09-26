@@ -1,7 +1,10 @@
+import Box from '@mui/material/Box'
+import Link from '@mui/material/Link'
+import Paper from '@mui/material/Paper'
+import Typography from '@mui/material/Typography'
 import { NavLink } from 'react-router-dom'
 import { MovementItem } from './MovementItem'
 import type { MovementsListProps } from './MovementsList.types'
-import './MovementsList.scss'
 
 const defaultMovements = [
   {
@@ -32,14 +35,16 @@ const defaultMovements = [
 
 export function MovementsList({ movements = defaultMovements }: MovementsListProps) {
   return (
-    <section className="movements-list-card">
-      <div className="section-heading">
-        <h2>Últimos movimientos</h2>
-        <NavLink to="/movimientos">Ver todos</NavLink>
-      </div>
+    <Paper component="section" variant="outlined" sx={{ p: 6, mt: 4 }}>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
+        <Typography variant="h2">Últimos movimientos</Typography>
+        <Link component={NavLink} to="/movimientos" sx={{ fontSize: '0.75rem', fontWeight: 700 }}>
+          Ver todos
+        </Link>
+      </Box>
       {movements.map((movement) => (
         <MovementItem key={movement.description + movement.detail} {...movement} />
       ))}
-    </section>
+    </Paper>
   )
 }

@@ -1,13 +1,13 @@
 import Box from '@mui/material/Box'
 import Dialog from '@mui/material/Dialog'
 import DialogContent from '@mui/material/DialogContent'
+import Typography from '@mui/material/Typography'
 import {
   CurrencyInput,
   DatePicker,
   Dropdown,
   ModalHeader,
   SaveCancelButtons,
-  SmallText,
   TextInput,
 } from '@/components/common'
 import type { MovementModalProps } from './MovementModal.types'
@@ -73,7 +73,9 @@ export function MovementModal(props: MovementModalProps) {
             onChange={setCategory}
           />
           {categories.length === 0 && (
-            <SmallText text="Crea primero una categoría desde el menú." />
+            <Typography variant="caption" sx={{ color: 'app.textSoft' }}>
+              Crea primero una categoría desde el menú.
+            </Typography>
           )}
 
           <SaveCancelButtons onCancel={handleClose} saveDisabled={categories.length === 0} />

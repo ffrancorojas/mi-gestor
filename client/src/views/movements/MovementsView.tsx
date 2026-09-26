@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import Paper from '@mui/material/Paper'
 import {
   MovementList,
   MovementModal,
@@ -8,7 +9,6 @@ import {
 } from '@/components/movements'
 import type { Movement } from './MovementsView.types'
 import { useMovementsView } from './useMovementsView'
-import './MovementsView.scss'
 
 export function MovementsView() {
   const { from, setFrom, to, setTo, isMovementModalOpen, handleMovementModal } = useMovementsView()
@@ -26,10 +26,10 @@ export function MovementsView() {
     <>
       <MovementsHeader onOpenModal={handleMovementModal} />
       <MovementsFilters from={from} to={to} onFromChange={setFrom} onToChange={setTo} />
-      <section className="content-card movements-list">
+      <Paper component="section" variant="outlined" sx={{ p: 6 }}>
         <MovementsSectionHeader resultCount={filteredMovements.length} />
         <MovementList movements={filteredMovements} />
-      </section>
+      </Paper>
       <MovementModal
         isOpen={isMovementModalOpen}
         onClose={handleMovementModal}
