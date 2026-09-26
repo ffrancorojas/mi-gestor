@@ -1,5 +1,5 @@
 import DialogActions from '@mui/material/DialogActions'
-import { Button } from '../Button'
+import { Button } from '../button'
 import type { SaveCancelButtonsProps } from './SaveCancelButtons.types'
 
 export function SaveCancelButtons({

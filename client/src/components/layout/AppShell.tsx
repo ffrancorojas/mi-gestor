@@ -9,11 +9,7 @@ import Typography from '@mui/material/Typography'
 import useMediaQuery from '@mui/material/useMediaQuery'
 import { Outlet } from 'react-router-dom'
 import { Menu, X } from 'lucide-react'
-import {
-  NavigationMenuItem,
-  navigationItems,
-  settingsNavigationItem,
-} from '@/components/navigation'
+import { NavigationMenuItem, navigationItems, settingsNavigationItem } from '@/components'
 
 const drawerWidth = '15.5rem'
 

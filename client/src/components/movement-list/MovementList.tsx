@@ -1,6 +1,6 @@
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
-import { MovementCard } from './MovementCard'
+import { MovementCard } from './components'
 import type { MovementListProps } from './MovementList.types'
 
 export function MovementList({ movements }: MovementListProps) {

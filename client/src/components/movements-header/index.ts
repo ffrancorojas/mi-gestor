@@ -1,3 +1,3 @@
 export { MovementsHeader } from './MovementsHeader'
 export type { MovementsHeaderProps } from './MovementsHeader.types'
-export * from './NewMovementButton'
+export * from './new-movement-button'

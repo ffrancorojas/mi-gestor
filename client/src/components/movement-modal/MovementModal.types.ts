@@ -1,4 +1,4 @@
-import type { Movement } from '../MovementList'
+import type { Movement } from '../movement-list'
 
 export type MovementModalProps = {
   isOpen: boolean

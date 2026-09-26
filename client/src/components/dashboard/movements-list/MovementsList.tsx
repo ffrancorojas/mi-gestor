@@ -3,7 +3,7 @@ import Link from '@mui/material/Link'
 import Paper from '@mui/material/Paper'
 import Typography from '@mui/material/Typography'
 import { NavLink } from 'react-router-dom'
-import { MovementItem } from './MovementItem'
+import { MovementItem } from './movement-item'
 import type { MovementsListProps } from './MovementsList.types'
 
 const defaultMovements = [

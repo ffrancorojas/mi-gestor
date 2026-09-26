@@ -6,7 +6,7 @@ import {
   MovementsFilters,
   MovementsHeader,
   MovementsSectionHeader,
-} from '@/components/movements'
+} from '@/components'
 import type { Movement } from './MovementsView.types'
 import { useMovementsView } from './useMovementsView'
 

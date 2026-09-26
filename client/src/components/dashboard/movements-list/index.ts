@@ -1,3 +1,3 @@
 export { MovementsList } from './MovementsList'
 export type { MovementsListProps } from './MovementsList.types'
-export * from './MovementItem'
+export * from './movement-item'

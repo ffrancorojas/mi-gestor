@@ -1,6 +1,6 @@
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
-import { NewMovementButton } from './NewMovementButton'
+import { NewMovementButton } from './new-movement-button'
 import type { MovementsHeaderProps } from './MovementsHeader.types'
 
 export function MovementsHeader({ onOpenModal }: MovementsHeaderProps) {
