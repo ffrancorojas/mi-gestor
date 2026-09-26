@@ -3,6 +3,7 @@ import Dialog from '@mui/material/Dialog'
 import DialogContent from '@mui/material/DialogContent'
 import Typography from '@mui/material/Typography'
 import {
+  CloseButton,
   CurrencyInput,
   DatePicker,
   Dropdown,
@@ -41,8 +42,11 @@ export function MovementModal(props: MovementModalProps) {
       maxWidth="xs"
       scroll="paper"
     >
-      <Box component="form" onSubmit={handleSubmit}>
-        <ModalHeader title="Nuevo movimiento" titleId="new-movement-title" onClose={handleClose} />
+      <Box component="form" onSubmit={handleSubmit} sx={{ position: 'relative' }}>
+        <Box sx={{ position: 'absolute', zIndex: 1, top: 2, right: 2 }}>
+          <CloseButton onClick={handleClose} />
+        </Box>
+        <ModalHeader title="Nuevo movimiento" titleId="new-movement-title" />
 
         <DialogContent sx={{ display: 'grid', gap: 3, px: 6, pt: '0.25rem !important', pb: 5 }}>
           <TextInput
