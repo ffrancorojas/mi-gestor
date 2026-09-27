@@ -12,6 +12,7 @@ const allowedOrigins = (process.env.CLIENT_ORIGIN ?? '')
 
 app.decorateRequest('authUser', null)
 await app.register(cors, {
+  methods: ['GET', 'HEAD', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
   origin:
     allowedOrigins.length === 0
       ? true
