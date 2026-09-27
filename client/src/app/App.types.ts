@@ -1,8 +1,2 @@
 export type AppRoute =
-  | '/'
-  | '/movimientos'
-  | '/cuentas'
-  | '/recurrentes'
-  | '/categorias'
-  | '/informes'
-  | '/configuracion'
+  '/' | '/movimientos' | '/nomina' | '/recurrentes' | '/categorias' | '/informes'

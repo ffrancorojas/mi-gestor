@@ -1,0 +1,1 @@
+export { SalaryView } from './SalaryView'

@@ -21,6 +21,12 @@ const RecurringView = lazy(() =>
 const CategoriesView = lazy(() =>
   import('@/views/categories').then(({ CategoriesView: View }) => ({ default: View })),
 )
+const SalaryView = lazy(() =>
+  import('@/views/salary').then(({ SalaryView: View }) => ({ default: View })),
+)
+const ReportsView = lazy(() =>
+  import('@/views/reports').then(({ ReportsView: View }) => ({ default: View })),
+)
 
 export function App() {
   const { isConfigured, isLoading, user } = useAuth()
@@ -49,8 +55,10 @@ export function App() {
           <Route element={<AppShell />}>
             <Route path="/" element={<DashboardView />} />
             <Route path="/movimientos" element={<MovementsView />} />
+            <Route path="/nomina" element={<SalaryView />} />
             <Route path="/recurrentes" element={<RecurringView />} />
             <Route path="/categorias" element={<CategoriesView />} />
+            <Route path="/informes" element={<ReportsView />} />
             <Route path="*" element={<PlaceholderView />} />
           </Route>
         </Routes>

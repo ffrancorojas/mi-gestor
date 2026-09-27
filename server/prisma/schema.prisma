@@ -17,6 +17,7 @@ model User {
   categories         Category[]
   movements          Movement[]
   recurringMovements RecurringMovement[]
+  monthlySalaries    MonthlySalary[]
   createdAt          DateTime            @default(now())
   updatedAt          DateTime            @updatedAt
 }
@@ -55,24 +56,28 @@ model Category {
 }
 
 model Movement {
-  id          String       @id @default(cuid())
-  userId      String
-  accountId   String?
-  categoryId  String?
-  description String
-  amountCents Int
-  kind        MovementKind
-  occurredAt  DateTime
-  notes       String?
-  user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
-  account     Account?     @relation(fields: [accountId], references: [id], onDelete: SetNull)
-  category    Category?    @relation(fields: [categoryId], references: [id], onDelete: SetNull)
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime     @updatedAt
+  id                  String             @id @default(cuid())
+  userId              String
+  accountId           String?
+  categoryId          String?
+  recurringMovementId String?
+  description         String
+  amountCents         Int
+  kind                MovementKind
+  occurredAt          DateTime
+  notes               String?
+  user                User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  account             Account?           @relation(fields: [accountId], references: [id], onDelete: SetNull)
+  category            Category?          @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  recurringMovement   RecurringMovement? @relation(fields: [recurringMovementId], references: [id], onDelete: SetNull)
+  createdAt           DateTime           @default(now())
+  updatedAt           DateTime           @updatedAt
 
+  @@unique([recurringMovementId, occurredAt])
   @@index([userId, occurredAt])
   @@index([userId, accountId, occurredAt])
   @@index([userId, categoryId, occurredAt])
+  @@index([recurringMovementId])
 }
 
 model RecurringMovement {
@@ -89,10 +94,24 @@ model RecurringMovement {
   user             User         @relation(fields: [userId], references: [id], onDelete: Cascade)
   account          Account?     @relation(fields: [accountId], references: [id], onDelete: SetNull)
   category         Category?    @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  movements        Movement[]
   createdAt        DateTime     @default(now())
   updatedAt        DateTime     @updatedAt
 
   @@index([userId, active, nextOccurrenceAt])
+}
+
+model MonthlySalary {
+  id          String   @id @default(cuid())
+  userId      String
+  month       DateTime
+  amountCents Int
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@unique([userId, month])
+  @@index([userId, month])
 }
 
 enum AccountType {

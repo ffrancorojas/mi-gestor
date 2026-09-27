@@ -1,55 +1,136 @@
-import { type FormEvent, useCallback, useState } from 'react'
-import { getCurrentDate, parseCurrencyValue } from '@/tools'
+import { type FormEvent, useCallback, useEffect, useMemo, useState } from 'react'
+import { getCategories, type Category } from '@/api'
+import {
+  getCurrentDate,
+  getDefaultRecurringDate,
+  getFirstDayOfNextMonth,
+  parseCurrencyValue,
+} from '@/tools'
 import type { MovementModalProps } from './MovementModal.types'
 
-export function useMovementModal({ onClose, onSave }: MovementModalProps) {
+export function useMovementModal({
+  isOpen,
+  mode = 'movement',
+  onClose,
+  onSave,
+}: MovementModalProps) {
+  const recurringMode = mode === 'recurring'
   const [description, setDescription] = useState('')
   const [amount, setAmount] = useState('')
-  const [date, setDate] = useState(getCurrentDate)
-  const [category, setCategory] = useState('')
-  const [isRecurring, setIsRecurring] = useState(false)
-  const categories: string[] = []
+  const [date, setDate] = useState(recurringMode ? getDefaultRecurringDate : getCurrentDate)
+  const [categoryId, setCategoryId] = useState('')
+  const [isRecurring, setIsRecurring] = useState(recurringMode)
+  const [includeCurrentMonth, setIncludeCurrentMonth] = useState(false)
+  const [currentMonthDay, setCurrentMonthDay] = useState(String(new Date().getDate()))
+  const [categories, setCategories] = useState<Category[]>([])
+  const [error, setError] = useState('')
+  const [isSubmitting, setIsSubmitting] = useState(false)
+
+  useEffect(() => {
+    if (!isOpen) return
+
+    let isMounted = true
+
+    getCategories()
+      .then((data) => {
+        if (isMounted) setCategories(data)
+      })
+      .catch((reason: unknown) => {
+        if (isMounted) {
+          setError(
+            reason instanceof Error ? reason.message : 'No se pudieron cargar las categorías.',
+          )
+        }
+      })
+
+    return () => {
+      isMounted = false
+    }
+  }, [isOpen])
 
   const resetForm = useCallback(() => {
     setDescription('')
     setAmount('')
-    setDate(getCurrentDate())
-    setCategory('')
-    setIsRecurring(false)
-  }, [])
+    setDate(recurringMode ? getDefaultRecurringDate() : getCurrentDate())
+    setCategoryId('')
+    setIsRecurring(recurringMode)
+    setIncludeCurrentMonth(false)
+    setCurrentMonthDay(String(new Date().getDate()))
+    setError('')
+  }, [recurringMode])
 
   const handleClose = useCallback(() => {
+    if (isSubmitting) return
     resetForm()
     onClose()
-  }, [onClose, resetForm])
+  }, [isSubmitting, onClose, resetForm])
 
   const handleSubmit = useCallback(
-    (event: FormEvent<HTMLFormElement>) => {
+    async (event: FormEvent<HTMLFormElement>) => {
       event.preventDefault()
+      setError('')
+
       const numericAmount = parseCurrencyValue(amount)
+      const numericDay = Number(currentMonthDay)
 
       if (
         !description.trim() ||
         numericAmount === null ||
-        numericAmount === 0 ||
+        numericAmount <= 0 ||
         !date ||
-        !category
-      )
+        !categoryId
+      ) {
+        setError('Completa todos los campos obligatorios.')
         return
+      }
 
-      onSave({
-        id: Date.now(),
-        description: description.trim(),
-        category,
-        date,
-        amount: -Math.abs(numericAmount),
-        icon: '•',
-        iconClass: 'food',
-        isRecurring,
-      })
-      handleClose()
+      if (
+        recurringMode &&
+        includeCurrentMonth &&
+        (!Number.isInteger(numericDay) || numericDay < 1 || numericDay > 31)
+      ) {
+        setError('El día del mes debe estar entre 1 y 31.')
+        return
+      }
+
+      setIsSubmitting(true)
+
+      try {
+        await onSave({
+          description: description.trim(),
+          amountCents: Math.round(numericAmount * 100),
+          date,
+          categoryId,
+          isRecurring: recurringMode || isRecurring,
+          includeCurrentMonth,
+          currentMonthDay: recurringMode && includeCurrentMonth ? numericDay : undefined,
+        })
+        resetForm()
+        onClose()
+      } catch (reason) {
+        setError(reason instanceof Error ? reason.message : 'No se pudo guardar el movimiento.')
+      } finally {
+        setIsSubmitting(false)
+      }
     },
-    [amount, category, date, description, handleClose, isRecurring, onSave],
+    [
+      amount,
+      categoryId,
+      currentMonthDay,
+      date,
+      description,
+      includeCurrentMonth,
+      isRecurring,
+      onClose,
+      onSave,
+      recurringMode,
+      resetForm,
+    ],
+  )
+
+  const categoryOptions = useMemo(
+    () => categories.map((category) => ({ label: category.name, value: category.id })),
+    [categories],
   )
 
   return {
@@ -59,12 +140,20 @@ export function useMovementModal({ onClose, onSave }: MovementModalProps) {
     setAmount,
     date,
     setDate,
-    category,
-    setCategory,
-    isRecurring,
+    categoryId,
+    setCategoryId,
+    isRecurring: recurringMode || isRecurring,
     setIsRecurring,
+    includeCurrentMonth,
+    setIncludeCurrentMonth,
+    currentMonthDay,
+    setCurrentMonthDay,
     categories,
-    categoryOptions: categories.map((item) => ({ label: item, value: item })),
+    categoryOptions,
+    error,
+    isSubmitting,
+    recurringMode,
+    minimumDate: recurringMode ? getFirstDayOfNextMonth() : undefined,
     handleClose,
     handleSubmit,
   }

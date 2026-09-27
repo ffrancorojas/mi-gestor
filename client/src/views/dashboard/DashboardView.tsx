@@ -8,9 +8,12 @@ import Typography from '@mui/material/Typography'
 import { LogOut } from 'lucide-react'
 import { useAuth } from '@/auth'
 import { BalanceCard, MetricCard, MovementsList } from '@/components/dashboard'
+import { formatEuro } from '@/tools'
+import { useDashboardView } from './useDashboardView'
 
 export function DashboardView() {
   const { user, signOut } = useAuth()
+  const dashboard = useDashboardView()
   const [profileAnchor, setProfileAnchor] = useState<null | HTMLElement>(null)
   const displayName = user?.displayName?.trim() ?? ''
   const initials = displayName
@@ -88,7 +91,13 @@ export function DashboardView() {
           </MenuItem>
         </Menu>
       </Box>
-      <BalanceCard balance="0,00 €" variation="—" />
+      {dashboard.error && (
+        <Typography sx={{ mb: 4, color: 'error.main' }}>{dashboard.error}</Typography>
+      )}
+      <BalanceCard
+        balance={dashboard.isLoading ? 'Cargando...' : formatEuro(dashboard.remaining)}
+        variation="Disponible este mes"
+      />
       <Box
         sx={{
           display: 'grid',
@@ -98,10 +107,20 @@ export function DashboardView() {
           '@media (max-width:44rem)': { gap: 2 },
         }}
       >
-        <MetricCard label="Ingresos este mes" value="0,00 €" change="—" tone="positive" />
-        <MetricCard label="Gastos este mes" value="0,00 €" change="—" tone="negative" />
+        <MetricCard
+          label="Nómina este mes"
+          value={dashboard.isLoading ? '—' : formatEuro(dashboard.salary)}
+          change="Importe mensual"
+          tone="positive"
+        />
+        <MetricCard
+          label="Gastos este mes"
+          value={dashboard.isLoading ? '—' : formatEuro(dashboard.expenses)}
+          change="Total del periodo"
+          tone="negative"
+        />
       </Box>
-      <MovementsList movements={[]} />
+      <MovementsList movements={dashboard.movements} />
     </>
   )
 }

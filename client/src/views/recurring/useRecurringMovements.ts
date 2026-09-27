@@ -1,11 +1,13 @@
 import { useCallback, useEffect, useState } from 'react'
-import { deactivateRecurringMovement, getRecurringMovements } from '@/api'
+import { createRecurringMovement, deactivateRecurringMovement, getRecurringMovements } from '@/api'
 import type { RecurringMovement } from '@/api'
+import type { MovementModalFormValues } from '@/components'
 
 export function useRecurringMovements() {
   const [movements, setMovements] = useState<RecurringMovement[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState('')
+  const [isModalOpen, setIsModalOpen] = useState(false)
 
   useEffect(() => {
     let isMounted = true
@@ -35,5 +37,32 @@ export function useRecurringMovements() {
     setMovements((current) => current.filter((movement) => movement.id !== id))
   }, [])
 
-  return { movements, isLoading, error, deactivate }
+  const saveRecurringMovement = useCallback(async (values: MovementModalFormValues) => {
+    const result = await createRecurringMovement({
+      description: values.description,
+      amountCents: values.amountCents,
+      categoryId: values.categoryId,
+      startAt: values.date,
+      includeCurrentMonth: values.includeCurrentMonth,
+      currentMonthDay: values.currentMonthDay,
+    })
+
+    setMovements((current) =>
+      [...current, result.recurringMovement].sort(
+        (left, right) =>
+          new Date(left.nextOccurrenceAt).getTime() - new Date(right.nextOccurrenceAt).getTime(),
+      ),
+    )
+  }, [])
+
+  return {
+    movements,
+    isLoading,
+    error,
+    deactivate,
+    isModalOpen,
+    openModal: () => setIsModalOpen(true),
+    closeModal: () => setIsModalOpen(false),
+    saveRecurringMovement,
+  }
 }

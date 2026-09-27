@@ -1,3 +1,4 @@
+import Alert from '@mui/material/Alert'
 import Box from '@mui/material/Box'
 import Dialog from '@mui/material/Dialog'
 import DialogContent from '@mui/material/DialogContent'
@@ -25,21 +26,33 @@ export function MovementModal(props: MovementModalProps) {
     setAmount,
     date,
     setDate,
-    category,
-    setCategory,
+    categoryId,
+    setCategoryId,
     isRecurring,
     setIsRecurring,
+    includeCurrentMonth,
+    setIncludeCurrentMonth,
+    currentMonthDay,
+    setCurrentMonthDay,
     categories,
     categoryOptions,
+    error,
+    isSubmitting,
+    recurringMode,
+    minimumDate,
     handleClose,
     handleSubmit,
   } = useMovementModal(props)
+
+  if (!isOpen) return null
+
+  const title = recurringMode ? 'Nuevo pago recurrente' : 'Nuevo movimiento'
 
   return (
     <Dialog
       open={isOpen}
       onClose={handleClose}
-      aria-labelledby="new-movement-title"
+      aria-labelledby="movement-modal-title"
       fullWidth
       maxWidth="xs"
       scroll="paper"
@@ -48,7 +61,7 @@ export function MovementModal(props: MovementModalProps) {
         <Box sx={{ position: 'absolute', zIndex: 1, top: 2, right: 2 }}>
           <CloseButton onClick={handleClose} />
         </Box>
-        <ModalHeader title="Nuevo movimiento" titleId="new-movement-title" />
+        <ModalHeader title={title} titleId="movement-modal-title" />
 
         <DialogContent sx={{ display: 'grid', gap: 3, px: 6, pt: '0.25rem !important', pb: 5 }}>
           <TextInput
@@ -66,17 +79,24 @@ export function MovementModal(props: MovementModalProps) {
             required
             onChange={setAmount}
           />
-          <DatePicker id="movement-date" label="Fecha" value={date} required onChange={setDate} />
+          <DatePicker
+            id="movement-date"
+            label={recurringMode ? 'Fecha habitual desde el próximo mes' : 'Fecha'}
+            value={date}
+            min={minimumDate}
+            required
+            onChange={setDate}
+          />
           <Dropdown
             id="movement-category"
             label="Categoría"
-            value={category}
+            value={categoryId}
             options={categoryOptions}
             placeholder="Selecciona una categoría"
             emptyMessage="No hay categorías creadas"
             disabled={categories.length === 0}
             required
-            onChange={setCategory}
+            onChange={setCategoryId}
           />
           {categories.length === 0 && (
             <Typography variant="caption" sx={{ color: 'app.textSoft' }}>
@@ -88,6 +108,7 @@ export function MovementModal(props: MovementModalProps) {
             control={
               <Switch
                 checked={isRecurring}
+                disabled={recurringMode}
                 onChange={(event) => setIsRecurring(event.target.checked)}
               />
             }
@@ -95,7 +116,39 @@ export function MovementModal(props: MovementModalProps) {
             sx={{ ml: 0, color: 'app.textSoft' }}
           />
 
-          <SaveCancelButtons onCancel={handleClose} saveDisabled={categories.length === 0} />
+          {recurringMode && (
+            <>
+              <FormControlLabel
+                control={
+                  <Switch
+                    checked={includeCurrentMonth}
+                    onChange={(event) => setIncludeCurrentMonth(event.target.checked)}
+                  />
+                }
+                label="Incluir también el gasto en el mes corriente"
+                sx={{ ml: 0, color: 'app.textSoft' }}
+              />
+              {includeCurrentMonth && (
+                <TextInput
+                  id="current-month-day"
+                  label="Día del pago este mes"
+                  value={currentMonthDay}
+                  inputMode="numeric"
+                  placeholder="1-31"
+                  required
+                  onChange={setCurrentMonthDay}
+                />
+              )}
+            </>
+          )}
+
+          {error && <Alert severity="error">{error}</Alert>}
+
+          <SaveCancelButtons
+            onCancel={handleClose}
+            saveDisabled={categories.length === 0 || isSubmitting}
+            saveText={isSubmitting ? 'Guardando...' : 'Guardar'}
+          />
         </DialogContent>
       </Box>
     </Dialog>

@@ -1,12 +1,14 @@
 export type Movement = {
-  id: number | string
+  id: string
   description: string
   category: string
   date: string
   amount: number
+  kind: 'INCOME' | 'EXPENSE'
   icon: string
   iconClass: string
   isRecurring: boolean
+  notes: string | null
 }
 
 export type MovementListProps = {

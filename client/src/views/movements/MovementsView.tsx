@@ -1,6 +1,5 @@
-import { useState } from 'react'
 import Paper from '@mui/material/Paper'
-import { deleteMovement } from '@/api'
+import Typography from '@mui/material/Typography'
 import { ConfirmationDialog } from '@/components/common'
 import {
   MovementList,
@@ -9,42 +8,44 @@ import {
   MovementsHeader,
   MovementsSectionHeader,
 } from '@/components'
-import type { Movement } from './MovementsView.types'
 import { useMovementsView } from './useMovementsView'
 
 export function MovementsView() {
-  const { from, setFrom, to, setTo, isMovementModalOpen, handleMovementModal } = useMovementsView()
-  const [movements, setMovements] = useState<Movement[]>([])
-  const [movementToDelete, setMovementToDelete] = useState<Movement | null>(null)
-
-  const filteredMovements = movements.filter(
-    (movement) => movement.date >= from && movement.date <= to,
-  )
-
-  const handleSaveMovement = (movement: Movement) => {
-    setMovements((current) => [movement, ...current])
-  }
-
-  const handleConfirmDelete = async () => {
-    if (!movementToDelete) return
-
-    if (typeof movementToDelete.id === 'string') await deleteMovement(movementToDelete.id)
-    setMovements((current) => current.filter(({ id }) => id !== movementToDelete.id))
-    setMovementToDelete(null)
-  }
+  const {
+    from,
+    setFrom,
+    to,
+    setTo,
+    movements,
+    isLoading,
+    error,
+    isMovementModalOpen,
+    openMovementModal,
+    closeMovementModal,
+    saveMovement,
+    movementToDelete,
+    setMovementToDelete,
+    confirmDelete,
+  } = useMovementsView()
 
   return (
     <>
-      <MovementsHeader onOpenModal={handleMovementModal} />
+      <MovementsHeader onOpenModal={openMovementModal} />
       <MovementsFilters from={from} to={to} onFromChange={setFrom} onToChange={setTo} />
       <Paper component="section" variant="outlined" sx={{ p: 6 }}>
-        <MovementsSectionHeader resultCount={filteredMovements.length} />
-        <MovementList movements={filteredMovements} onDelete={setMovementToDelete} />
+        <MovementsSectionHeader resultCount={movements.length} />
+        {isLoading ? (
+          <Typography sx={{ py: 8, textAlign: 'center' }}>Cargando movimientos...</Typography>
+        ) : error ? (
+          <Typography sx={{ py: 8, color: 'error.main', textAlign: 'center' }}>{error}</Typography>
+        ) : (
+          <MovementList movements={movements} onDelete={setMovementToDelete} />
+        )}
       </Paper>
       <MovementModal
         isOpen={isMovementModalOpen}
-        onClose={handleMovementModal}
-        onSave={handleSaveMovement}
+        onClose={closeMovementModal}
+        onSave={saveMovement}
       />
       <ConfirmationDialog
         open={movementToDelete !== null}
@@ -52,7 +53,7 @@ export function MovementsView() {
         message="¿Quieres eliminar este movimiento? Esta acción no se puede deshacer."
         confirmText="Eliminar"
         onClose={() => setMovementToDelete(null)}
-        onConfirm={() => void handleConfirmDelete()}
+        onConfirm={() => void confirmDelete()}
       />
     </>
   )

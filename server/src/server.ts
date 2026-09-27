@@ -5,8 +5,21 @@ import { ZodError } from 'zod'
 import { apiRoutes } from './routes/api.routes.js'
 
 const app = Fastify({ logger: true })
+const allowedOrigins = (process.env.CLIENT_ORIGIN ?? '')
+  .split(',')
+  .map((origin) => origin.trim().replace(/\/$/, ''))
+  .filter(Boolean)
+
 app.decorateRequest('authUser', null)
-await app.register(cors, { origin: process.env.CLIENT_ORIGIN ?? true })
+await app.register(cors, {
+  origin:
+    allowedOrigins.length === 0
+      ? true
+      : (origin: string | undefined, callback: (error: Error | null, allow: boolean) => void) => {
+          const normalizedOrigin = origin?.replace(/\/$/, '')
+          callback(null, !normalizedOrigin || allowedOrigins.includes(normalizedOrigin))
+        },
+})
 app.setErrorHandler((error, request, reply) => {
   if (error instanceof ZodError) {
     return reply.code(400).send({
