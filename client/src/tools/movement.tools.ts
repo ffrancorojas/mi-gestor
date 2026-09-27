@@ -7,6 +7,7 @@ export const mapApiMovement = (movement: ApiMovement): Movement => {
   return {
     id: movement.id,
     description: movement.description,
+    categoryId: movement.category?.id ?? '',
     category: movement.category?.name ?? 'Sin categoría',
     date: movement.occurredAt.slice(0, 10),
     amount: movement.kind === 'EXPENSE' ? -Math.abs(amount) : Math.abs(amount),

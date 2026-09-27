@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
-import { createMovement, deleteMovement, getMovements } from '@/api'
+import { createMovement, deleteMovement, getMovements, updateMovement } from '@/api'
 import type { MovementModalFormValues } from '@/components'
 import { getCurrentDate, getFirstDayOfCurrentMonth, mapApiMovement } from '@/tools'
 import type { Movement } from './MovementsView.types'
@@ -9,6 +9,7 @@ export function useMovementsView() {
   const [to, setTo] = useState(getCurrentDate)
   const [movements, setMovements] = useState<Movement[]>([])
   const [isMovementModalOpen, setIsMovementModalOpen] = useState(false)
+  const [movementToEdit, setMovementToEdit] = useState<Movement | null>(null)
   const [movementToDelete, setMovementToDelete] = useState<Movement | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState('')
@@ -36,8 +37,18 @@ export function useMovementsView() {
     }
   }, [from, to])
 
-  const openMovementModal = useCallback(() => setIsMovementModalOpen(true), [])
-  const closeMovementModal = useCallback(() => setIsMovementModalOpen(false), [])
+  const openMovementModal = useCallback(() => {
+    setMovementToEdit(null)
+    setIsMovementModalOpen(true)
+  }, [])
+  const openEditMovementModal = useCallback((movement: Movement) => {
+    setMovementToEdit(movement)
+    setIsMovementModalOpen(true)
+  }, [])
+  const closeMovementModal = useCallback(() => {
+    setIsMovementModalOpen(false)
+    setMovementToEdit(null)
+  }, [])
   const handleFromChange = useCallback((value: string) => {
     setIsLoading(true)
     setError('')
@@ -49,18 +60,40 @@ export function useMovementsView() {
     setTo(value)
   }, [])
 
-  const saveMovement = useCallback(async (values: MovementModalFormValues) => {
-    const result = await createMovement({
-      description: values.description,
-      amountCents: values.amountCents,
-      kind: 'EXPENSE',
-      occurredAt: values.date,
-      categoryId: values.categoryId,
-      isRecurring: values.isRecurring,
-    })
+  const saveMovement = useCallback(
+    async (values: MovementModalFormValues) => {
+      if (movementToEdit) {
+        const movement = await updateMovement(movementToEdit.id, {
+          description: values.description,
+          amountCents: values.amountCents,
+          kind: movementToEdit.kind,
+          occurredAt: values.date,
+          categoryId: values.categoryId,
+          notes: movementToEdit.notes ?? undefined,
+        })
+        const updatedMovement = mapApiMovement(movement)
 
-    setMovements((current) => [mapApiMovement(result.movement), ...current])
-  }, [])
+        setMovements((current) =>
+          values.date >= from && values.date <= to
+            ? current.map((item) => (item.id === updatedMovement.id ? updatedMovement : item))
+            : current.filter((item) => item.id !== updatedMovement.id),
+        )
+        return
+      }
+
+      const result = await createMovement({
+        description: values.description,
+        amountCents: values.amountCents,
+        kind: 'EXPENSE',
+        occurredAt: values.date,
+        categoryId: values.categoryId,
+        isRecurring: values.isRecurring,
+      })
+
+      setMovements((current) => [mapApiMovement(result.movement), ...current])
+    },
+    [from, movementToEdit, to],
+  )
 
   const confirmDelete = useCallback(async () => {
     if (!movementToDelete) return
@@ -80,8 +113,10 @@ export function useMovementsView() {
     error,
     isMovementModalOpen,
     openMovementModal,
+    openEditMovementModal,
     closeMovementModal,
     saveMovement,
+    movementToEdit,
     movementToDelete,
     setMovementToDelete,
     confirmDelete,

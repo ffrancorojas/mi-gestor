@@ -21,8 +21,10 @@ export function MovementsView() {
     error,
     isMovementModalOpen,
     openMovementModal,
+    openEditMovementModal,
     closeMovementModal,
     saveMovement,
+    movementToEdit,
     movementToDelete,
     setMovementToDelete,
     confirmDelete,
@@ -39,11 +41,27 @@ export function MovementsView() {
         ) : error ? (
           <Typography sx={{ py: 8, color: 'error.main', textAlign: 'center' }}>{error}</Typography>
         ) : (
-          <MovementList movements={movements} onDelete={setMovementToDelete} />
+          <MovementList
+            movements={movements}
+            onEdit={openEditMovementModal}
+            onDelete={setMovementToDelete}
+          />
         )}
       </Paper>
       <MovementModal
+        key={movementToEdit?.id ?? 'new-movement'}
         isOpen={isMovementModalOpen}
+        initialValues={
+          movementToEdit
+            ? {
+                description: movementToEdit.description,
+                amountCents: Math.round(Math.abs(movementToEdit.amount) * 100),
+                date: movementToEdit.date,
+                categoryId: movementToEdit.categoryId,
+                isRecurring: movementToEdit.isRecurring,
+              }
+            : undefined
+        }
         onClose={closeMovementModal}
         onSave={saveMovement}
       />

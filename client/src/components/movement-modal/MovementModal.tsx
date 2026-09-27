@@ -39,6 +39,7 @@ export function MovementModal(props: MovementModalProps) {
     error,
     isSubmitting,
     recurringMode,
+    editingMode,
     minimumDate,
     handleClose,
     handleSubmit,
@@ -46,7 +47,11 @@ export function MovementModal(props: MovementModalProps) {
 
   if (!isOpen) return null
 
-  const title = recurringMode ? 'Nuevo pago recurrente' : 'Nuevo movimiento'
+  const title = editingMode
+    ? 'Editar movimiento'
+    : recurringMode
+      ? 'Nuevo pago recurrente'
+      : 'Nuevo movimiento'
 
   return (
     <Dialog
@@ -104,17 +109,26 @@ export function MovementModal(props: MovementModalProps) {
             </Typography>
           )}
 
-          <FormControlLabel
-            control={
-              <Switch
-                checked={isRecurring}
-                disabled={recurringMode}
-                onChange={(event) => setIsRecurring(event.target.checked)}
-              />
-            }
-            label="Repetir cada mes"
-            sx={{ ml: 0, color: 'app.textSoft' }}
-          />
+          {!editingMode && (
+            <FormControlLabel
+              control={
+                <Switch
+                  checked={isRecurring}
+                  disabled={recurringMode}
+                  onChange={(event) => setIsRecurring(event.target.checked)}
+                />
+              }
+              label="Repetir cada mes"
+              sx={{ ml: 0, color: 'app.textSoft' }}
+            />
+          )}
+
+          {editingMode && isRecurring && (
+            <Alert severity="info">
+              Este cambio afecta solo a este movimiento, no al pago recurrente de los próximos
+              meses.
+            </Alert>
+          )}
 
           {recurringMode && (
             <>
@@ -147,7 +161,7 @@ export function MovementModal(props: MovementModalProps) {
           <SaveCancelButtons
             onCancel={handleClose}
             saveDisabled={categories.length === 0 || isSubmitting}
-            saveText={isSubmitting ? 'Guardando...' : 'Guardar'}
+            saveText={isSubmitting ? 'Guardando...' : editingMode ? 'Guardar cambios' : 'Guardar'}
           />
         </DialogContent>
       </Box>

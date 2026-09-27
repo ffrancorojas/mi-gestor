@@ -4,6 +4,7 @@ import {
   getCurrentDate,
   getDefaultRecurringDate,
   getFirstDayOfNextMonth,
+  formatCurrencyValue,
   parseCurrencyValue,
 } from '@/tools'
 import type { MovementModalProps } from './MovementModal.types'
@@ -11,15 +12,21 @@ import type { MovementModalProps } from './MovementModal.types'
 export function useMovementModal({
   isOpen,
   mode = 'movement',
+  initialValues,
   onClose,
   onSave,
 }: MovementModalProps) {
   const recurringMode = mode === 'recurring'
-  const [description, setDescription] = useState('')
-  const [amount, setAmount] = useState('')
-  const [date, setDate] = useState(recurringMode ? getDefaultRecurringDate : getCurrentDate)
-  const [categoryId, setCategoryId] = useState('')
-  const [isRecurring, setIsRecurring] = useState(recurringMode)
+  const editingMode = Boolean(initialValues)
+  const [description, setDescription] = useState(initialValues?.description ?? '')
+  const [amount, setAmount] = useState(
+    initialValues ? formatCurrencyValue(String(initialValues.amountCents / 100)) : '',
+  )
+  const [date, setDate] = useState(
+    initialValues?.date ?? (recurringMode ? getDefaultRecurringDate : getCurrentDate),
+  )
+  const [categoryId, setCategoryId] = useState(initialValues?.categoryId ?? '')
+  const [isRecurring, setIsRecurring] = useState(initialValues?.isRecurring ?? recurringMode)
   const [includeCurrentMonth, setIncludeCurrentMonth] = useState(false)
   const [currentMonthDay, setCurrentMonthDay] = useState(String(new Date().getDate()))
   const [categories, setCategories] = useState<Category[]>([])
@@ -49,15 +56,15 @@ export function useMovementModal({
   }, [isOpen])
 
   const resetForm = useCallback(() => {
-    setDescription('')
-    setAmount('')
-    setDate(recurringMode ? getDefaultRecurringDate() : getCurrentDate())
-    setCategoryId('')
-    setIsRecurring(recurringMode)
+    setDescription(initialValues?.description ?? '')
+    setAmount(initialValues ? formatCurrencyValue(String(initialValues.amountCents / 100)) : '')
+    setDate(initialValues?.date ?? (recurringMode ? getDefaultRecurringDate() : getCurrentDate()))
+    setCategoryId(initialValues?.categoryId ?? '')
+    setIsRecurring(initialValues?.isRecurring ?? recurringMode)
     setIncludeCurrentMonth(false)
     setCurrentMonthDay(String(new Date().getDate()))
     setError('')
-  }, [recurringMode])
+  }, [initialValues, recurringMode])
 
   const handleClose = useCallback(() => {
     if (isSubmitting) return
@@ -153,7 +160,8 @@ export function useMovementModal({
     error,
     isSubmitting,
     recurringMode,
-    minimumDate: recurringMode ? getFirstDayOfNextMonth() : undefined,
+    editingMode,
+    minimumDate: recurringMode && !editingMode ? getFirstDayOfNextMonth() : undefined,
     handleClose,
     handleSubmit,
   }

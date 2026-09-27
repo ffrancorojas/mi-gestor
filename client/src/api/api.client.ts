@@ -74,6 +74,8 @@ export type CreateMovementInput = {
   notes?: string
 }
 
+export type UpdateMovementInput = Omit<CreateMovementInput, 'isRecurring'>
+
 export type CreateRecurringMovementInput = {
   description: string
   amountCents: number
@@ -170,6 +172,12 @@ export const getMovements = (from: string, to: string) =>
 export const createMovement = (input: CreateMovementInput) =>
   request<{ movement: ApiMovement; recurringMovement: RecurringMovement | null }>('/movements', {
     method: 'POST',
+    body: JSON.stringify(input),
+  })
+
+export const updateMovement = (id: string, input: UpdateMovementInput) =>
+  request<ApiMovement>(`/movements/${id}`, {
+    method: 'PATCH',
     body: JSON.stringify(input),
   })
 

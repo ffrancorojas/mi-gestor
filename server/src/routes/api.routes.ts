@@ -200,6 +200,30 @@ export async function apiRoutes(app: FastifyInstance) {
     })
   })
 
+  app.patch('/movements/:id', async (request, reply) => {
+    const user = await getAuthenticatedUser(request)
+    const { id } = request.params as { id: string }
+    const body = movementInputSchema.omit({ isRecurring: true }).parse(request.body)
+    const occurredAt = parseDateOnly(body.occurredAt)
+    const movement = await prisma.movement.findFirst({ where: { id, userId: user.id } })
+
+    if (!movement) return reply.code(404).send({ message: 'Movimiento no encontrado.' })
+    if (!occurredAt) return reply.code(400).send({ message: 'La fecha no es válida.' })
+    if (!(await validateAccount(body.accountId, user.id))) {
+      return reply.code(400).send({ message: 'La cuenta no pertenece al usuario.' })
+    }
+    if (!(await validateCategory(body.categoryId, user.id))) {
+      return reply.code(400).send({ message: 'La categoría no pertenece al usuario.' })
+    }
+
+    const { occurredAt: _occurredAt, ...movementData } = body
+    return prisma.movement.update({
+      where: { id: movement.id },
+      data: { ...movementData, occurredAt },
+      include: { account: true, category: true },
+    })
+  })
+
   app.delete('/movements/:id', async (request, reply) => {
     const user = await getAuthenticatedUser(request)
     const { id } = request.params as { id: string }

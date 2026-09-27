@@ -12,6 +12,7 @@ export {
   getSalary,
   saveSalary,
   updateCategory,
+  updateMovement,
 } from './api.client'
 export type {
   ApiMovement,
@@ -22,5 +23,6 @@ export type {
   MonthlySalary,
   RecurringMovement,
   ReportRow,
+  UpdateMovementInput,
 } from './api.client'
 export { useApiStatus } from './use-api-status'

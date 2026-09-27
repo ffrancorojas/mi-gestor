@@ -3,7 +3,7 @@ import Typography from '@mui/material/Typography'
 import { MovementCard } from './components'
 import type { MovementListProps } from './MovementList.types'
 
-export function MovementList({ movements, onDelete }: MovementListProps) {
+export function MovementList({ movements, onEdit, onDelete }: MovementListProps) {
   if (movements.length === 0) {
     return (
       <Typography sx={{ py: 6, color: 'app.textSoft', fontSize: '0.75rem', textAlign: 'center' }}>
@@ -15,7 +15,7 @@ export function MovementList({ movements, onDelete }: MovementListProps) {
   return (
     <Box sx={{ display: 'grid', gap: 3 }}>
       {movements.map((movement) => (
-        <MovementCard key={movement.id} movement={movement} onDelete={onDelete} />
+        <MovementCard key={movement.id} movement={movement} onEdit={onEdit} onDelete={onDelete} />
       ))}
     </Box>
   )
