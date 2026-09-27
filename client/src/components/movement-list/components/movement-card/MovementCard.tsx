@@ -3,10 +3,10 @@ import IconButton from '@mui/material/IconButton'
 import Paper from '@mui/material/Paper'
 import Typography from '@mui/material/Typography'
 import { Trash2 } from 'lucide-react'
+import { formatEuro } from '@/tools'
 import type { MovementCardProps } from './MovementCard.types'
 
-const formatAmount = (amount: number) =>
-  (amount >= 0 ? '+' : '') + amount.toLocaleString('es-ES', { style: 'currency', currency: 'EUR' })
+const formatAmount = (amount: number) => (amount >= 0 ? '+' : '') + formatEuro(amount)
 
 export function MovementCard({ movement, onDelete }: MovementCardProps) {
   const detail = `${new Date(movement.date + 'T12:00:00').toLocaleDateString('es-ES')} · ${movement.category}`

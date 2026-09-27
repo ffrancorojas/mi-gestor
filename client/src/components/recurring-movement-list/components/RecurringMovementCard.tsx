@@ -2,6 +2,7 @@ import IconButton from '@mui/material/IconButton'
 import Paper from '@mui/material/Paper'
 import Typography from '@mui/material/Typography'
 import { PauseCircle } from 'lucide-react'
+import { formatEuro } from '@/tools'
 import type { RecurringMovementCardProps } from './RecurringMovementCard.types'
 
 const formatAmount = (
@@ -10,7 +11,7 @@ const formatAmount = (
 ) => {
   const amount = amountCents / 100
   const sign = kind === 'EXPENSE' ? '-' : '+'
-  return `${sign}${Math.abs(amount).toLocaleString('es-ES', { style: 'currency', currency: 'EUR' })}`
+  return `${sign}${formatEuro(Math.abs(amount))}`
 }
 
 export function RecurringMovementCard({ movement, onDeactivate }: RecurringMovementCardProps) {

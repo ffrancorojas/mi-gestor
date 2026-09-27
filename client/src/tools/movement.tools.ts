@@ -19,4 +19,10 @@ export const mapApiMovement = (movement: ApiMovement): Movement => {
 }
 
 export const formatEuro = (amount: number) =>
-  amount.toLocaleString('es-ES', { style: 'currency', currency: 'EUR' })
+  amount.toLocaleString('es-ES', {
+    style: 'currency',
+    currency: 'EUR',
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+    useGrouping: 'always',
+  })

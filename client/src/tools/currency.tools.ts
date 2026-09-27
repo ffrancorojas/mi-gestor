@@ -36,5 +36,6 @@ export const formatCurrencyValue = (value: string) => {
   return numericValue.toLocaleString('es-ES', {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
+    useGrouping: 'always',
   })
 }
