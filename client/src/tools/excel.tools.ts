@@ -7,7 +7,7 @@ const headerCell = (value: string) => ({
   value,
   fontWeight: 'bold' as const,
   textColor: '#ffffff',
-  backgroundColor: '#6559ee',
+  backgroundColor: 'rgba(218, 69, 255, 1)',
   alignVertical: 'center' as const,
   height: 24,
 })

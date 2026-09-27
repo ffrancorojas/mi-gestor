@@ -24,7 +24,7 @@ export function RecurringMovementCard({ movement, onDeactivate }: RecurringMovem
       variant="outlined"
       sx={{ display: 'flex', alignItems: 'center', gap: 3, p: 4, mb: 3 }}
     >
-      <PauseCircle size={22} color="#6559ee" />
+      <PauseCircle size={22} color="var(--mui-palette-primary-main)" />
       <div style={{ minWidth: 0, flex: 1 }}>
         <Typography sx={{ fontWeight: 700 }}>{movement.description}</Typography>
         <Typography sx={{ mt: 1, color: 'app.textSoft', fontSize: '0.75rem' }}>

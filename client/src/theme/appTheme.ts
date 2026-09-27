@@ -31,8 +31,8 @@ export const appTheme = createTheme(
     },
     palette: {
       primary: {
-        main: '#6559ee',
-        light: '#e9e7ff',
+        main: 'rgba(218, 69, 255, 1)',
+        light: 'rgba(245, 207, 255, 1)',
       },
       success: {
         main: '#16a267',
@@ -50,15 +50,15 @@ export const appTheme = createTheme(
       },
       divider: '#ededf4',
       app: {
-        primaryLight: '#e9e7ff',
-        primarySoft: '#f1efff',
+        primaryLight: 'rgba(245, 207, 255, 1)',
+        primarySoft: 'rgba(245, 207, 255, 1)',
         surfaceMuted: '#f2f2f7',
         textSoft: '#989aa8',
         borderInput: '#e2e2eb',
         borderSoft: '#e4e4ed',
         positiveBackground: '#e0f8ec',
         foodBackground: '#fff1df',
-        balanceVariation: '#c4ffdc',
+        balanceVariation: 'rgba(218, 69, 255, 1)',
         overlay: 'rgba(28, 28, 42, 0.4)',
       },
     },
@@ -106,6 +106,11 @@ export const appTheme = createTheme(
         styleOverrides: {
           root: {
             borderRadius: '0.75rem',
+            '&.MuiButton-containedPrimary': {
+              color: 'primary.main',
+              backgroundColor: 'primary.light',
+              '&:hover': { backgroundColor: 'primary.light' },
+            },
           },
         },
       },

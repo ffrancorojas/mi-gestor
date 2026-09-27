@@ -38,7 +38,7 @@ export function CategoriesHeader({ onOpenModal }: CategoriesHeaderProps) {
           px: 4,
           py: 3,
           fontSize: '0.75rem',
-          boxShadow: '0 0.5rem 1rem rgba(101, 89, 238, 0.18)',
+          boxShadow: 'none',
           '@media (max-width:44rem)': {
             minWidth: '2.75rem',
             px: 3,

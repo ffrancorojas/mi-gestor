@@ -10,9 +10,9 @@ export function BalanceCard({ balance, variation }: BalanceCardProps) {
       elevation={0}
       sx={{
         p: '1.75rem 2rem',
-        color: 'primary.contrastText',
-        background: 'linear-gradient(120deg, #6559ee, #8479fa)',
-        boxShadow: '0 0.75rem 1.75rem rgba(101, 89, 238, 0.2)',
+        color: 'primary.main',
+        backgroundColor: 'primary.light',
+        boxShadow: 'none',
         '@media (max-width:44rem)': { p: 6 },
       }}
     >

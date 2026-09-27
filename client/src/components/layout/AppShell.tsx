@@ -28,8 +28,8 @@ export function AppShell() {
             width: '2rem',
             height: '2rem',
             borderRadius: 3,
-            backgroundColor: 'primary.main',
-            color: 'primary.contrastText',
+            backgroundColor: 'primary.light',
+            color: 'primary.main',
             fontWeight: 700,
           }}
         >
@@ -39,7 +39,11 @@ export function AppShell() {
           mi gestor
         </Typography>
         {isMobile && (
-          <IconButton sx={{ ml: 'auto' }} onClick={closeMenu} aria-label="Cerrar menú">
+          <IconButton
+            sx={{ ml: 'auto', color: 'primary.main' }}
+            onClick={closeMenu}
+            aria-label="Cerrar menú"
+          >
             <X size={21} />
           </IconButton>
         )}
@@ -60,10 +64,15 @@ export function AppShell() {
           position="fixed"
           color="inherit"
           elevation={0}
-          sx={{ borderBottom: 1, borderColor: 'divider', backgroundColor: 'rgba(255,255,255,0.9)' }}
+          sx={{ borderBottom: 1, borderColor: 'divider', backgroundColor: 'primary.light' }}
         >
           <Toolbar sx={{ minHeight: '4rem !important', gap: 3, px: 5 }}>
-            <IconButton onClick={() => setMenuOpen(true)} aria-label="Abrir menú" edge="start">
+            <IconButton
+              onClick={() => setMenuOpen(true)}
+              aria-label="Abrir menú"
+              edge="start"
+              sx={{ color: 'primary.main' }}
+            >
               <Menu size={24} />
             </IconButton>
             <Typography sx={{ fontWeight: 750, letterSpacing: '-0.04em' }}>mi gestor</Typography>

@@ -19,9 +19,9 @@ export function Button({
       sx={
         variant === 'secondary'
           ? {
-              color: 'text.primary',
-              backgroundColor: 'app.surfaceMuted',
-              '&:hover': { backgroundColor: 'divider' },
+              color: 'primary.main',
+              backgroundColor: 'primary.light',
+              '&:hover': { backgroundColor: 'primary.light' },
             }
           : undefined
       }

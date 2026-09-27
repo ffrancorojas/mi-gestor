@@ -19,7 +19,7 @@ export function NavigationMenuItem({ label, icon: Icon, to, onNavigate }: Naviga
         color: 'text.secondary',
         '&:hover, &.active': {
           color: 'primary.main',
-          backgroundColor: 'app.primarySoft',
+          backgroundColor: 'primary.light',
         },
       }}
     >
