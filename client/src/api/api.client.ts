@@ -1,6 +1,12 @@
 import { firebaseAuth } from '@/auth'
+import { markApiAsWaking, markApiRequestAsFinished } from './api-status.store'
 
 const apiUrl = import.meta.env.VITE_API_URL?.replace(/\/$/, '')
+const RETRYABLE_STATUS_CODES = new Set([502, 503, 504])
+const RETRYABLE_METHODS = new Set(['GET', 'HEAD', 'PUT', 'PATCH', 'DELETE'])
+const MAX_ATTEMPTS = 10
+const RETRY_DELAY_MS = 5_000
+const SLOW_REQUEST_NOTICE_DELAY_MS = 1_500
 
 export type Category = {
   id: string
@@ -85,28 +91,61 @@ const request = async <T>(path: string, init?: RequestInit): Promise<T> => {
   if (!currentUser) throw new Error('La sesión ha expirado. Vuelve a iniciar sesión.')
 
   const token = await currentUser.getIdToken()
-  let response: Response
+  const method = init?.method?.toUpperCase() ?? 'GET'
+  const canRetry = RETRYABLE_METHODS.has(method)
+  const requestId = Symbol(path)
+  const slowRequestTimer = window.setTimeout(
+    () => markApiAsWaking(requestId),
+    SLOW_REQUEST_NOTICE_DELAY_MS,
+  )
 
   try {
-    response = await fetch(`${apiUrl}/api${path}`, {
-      ...init,
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-        ...init?.headers,
-      },
-    })
-  } catch {
-    throw new Error('No se pudo conectar con la API. Revisa su URL y la configuración CORS.')
-  }
+    for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt += 1) {
+      let response: Response
 
-  if (!response.ok) {
-    const body = (await response.json().catch(() => null)) as { message?: string } | null
-    throw new Error(body?.message ?? `No se pudo completar la operación (${response.status}).`)
-  }
+      try {
+        response = await fetch(`${apiUrl}/api${path}`, {
+          ...init,
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+            ...init?.headers,
+          },
+        })
+      } catch {
+        if (canRetry && attempt < MAX_ATTEMPTS) {
+          markApiAsWaking(requestId)
+          await new Promise((resolve) => window.setTimeout(resolve, RETRY_DELAY_MS))
+          continue
+        }
 
-  if (response.status === 204) return undefined as T
-  return response.json() as Promise<T>
+        throw new Error(
+          canRetry
+            ? 'El servidor sigue sin responder. Espera unos segundos y vuelve a intentarlo.'
+            : 'El servidor puede estar iniciándose. Espera unos segundos y vuelve a intentarlo.',
+        )
+      }
+
+      if (RETRYABLE_STATUS_CODES.has(response.status) && canRetry && attempt < MAX_ATTEMPTS) {
+        markApiAsWaking(requestId)
+        await new Promise((resolve) => window.setTimeout(resolve, RETRY_DELAY_MS))
+        continue
+      }
+
+      if (!response.ok) {
+        const body = (await response.json().catch(() => null)) as { message?: string } | null
+        throw new Error(body?.message ?? `No se pudo completar la operación (${response.status}).`)
+      }
+
+      if (response.status === 204) return undefined as T
+      return response.json() as Promise<T>
+    }
+
+    throw new Error('El servidor sigue sin responder. Espera unos segundos y vuelve a intentarlo.')
+  } finally {
+    window.clearTimeout(slowRequestTimer)
+    markApiRequestAsFinished(requestId)
+  }
 }
 
 const buildRangeQuery = (from: string, to: string) => new URLSearchParams({ from, to }).toString()
@@ -116,6 +155,12 @@ export const getCategories = () => request<Category[]>('/categories')
 export const createCategory = (name: string) =>
   request<Category>('/categories', {
     method: 'POST',
+    body: JSON.stringify({ name }),
+  })
+
+export const updateCategory = (id: string, name: string) =>
+  request<Category>(`/categories/${id}`, {
+    method: 'PATCH',
     body: JSON.stringify({ name }),
   })
 

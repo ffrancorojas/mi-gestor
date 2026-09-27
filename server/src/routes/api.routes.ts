@@ -138,6 +138,31 @@ export async function apiRoutes(app: FastifyInstance) {
     return reply.code(201).send(category)
   })
 
+  app.patch('/categories/:id', async (request, reply) => {
+    const user = await getAuthenticatedUser(request)
+    const { id } = request.params as { id: string }
+    const body = z.object({ name: z.string().trim().min(1).max(50) }).parse(request.body)
+    const category = await prisma.category.findFirst({
+      where: { id, userId: user.id, archived: false },
+    })
+
+    if (!category) return reply.code(404).send({ message: 'Categoría no encontrada.' })
+
+    const duplicatedCategory = await prisma.category.findFirst({
+      where: {
+        id: { not: id },
+        userId: user.id,
+        name: { equals: body.name, mode: 'insensitive' },
+      },
+    })
+
+    if (duplicatedCategory) {
+      return reply.code(409).send({ message: 'Ya existe una categoría con ese nombre.' })
+    }
+
+    return prisma.category.update({ where: { id }, data: { name: body.name } })
+  })
+
   app.delete('/categories/:id', async (request, reply) => {
     const user = await getAuthenticatedUser(request)
     const { id } = request.params as { id: string }

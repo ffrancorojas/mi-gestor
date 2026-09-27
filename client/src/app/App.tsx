@@ -3,6 +3,7 @@ import Box from '@mui/material/Box'
 import CircularProgress from '@mui/material/CircularProgress'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { useAuth } from '@/auth'
+import { ServerWakeUpNotice } from '@/components/common'
 import { AppShell } from '@/components/layout'
 import { AuthView } from '@/views/auth'
 
@@ -44,6 +45,7 @@ export function App() {
 
   return (
     <BrowserRouter>
+      <ServerWakeUpNotice />
       <Suspense
         fallback={
           <Box sx={{ display: 'grid', minHeight: '100vh', placeItems: 'center' }}>

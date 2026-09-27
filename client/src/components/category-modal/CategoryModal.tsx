@@ -10,30 +10,34 @@ import { CloseButton, ModalHeader, SaveCancelButtons, TextInput } from '@/compon
 import type { CategoryModalProps } from './CategoryModal.types'
 import { useCategoryModal } from './useCategoryModal'
 
-export function CategoryModal({ isOpen, categories, onClose, onSave }: CategoryModalProps) {
+export function CategoryModal({
+  isOpen,
+  categories,
+  category,
+  onClose,
+  onSave,
+}: CategoryModalProps) {
   const { name, setName, error, clearError, handleClose, handleSubmit } = useCategoryModal({
     isOpen,
     categories,
+    category,
     onClose,
     onSave,
   })
+  const isEditing = Boolean(category)
+  const title = isEditing ? 'Editar categoría' : 'Nueva categoría'
+  const titleId = isEditing ? 'edit-category-title' : 'new-category-title'
 
   if (!isOpen) return null
 
   return (
     <>
-      <Dialog
-        open={isOpen}
-        onClose={handleClose}
-        aria-labelledby="new-category-title"
-        fullWidth
-        maxWidth="xs"
-      >
+      <Dialog open={isOpen} onClose={handleClose} aria-labelledby={titleId} fullWidth maxWidth="xs">
         <Box component="form" onSubmit={handleSubmit} sx={{ position: 'relative' }}>
           <Box sx={{ position: 'absolute', zIndex: 1, top: 2, right: 2 }}>
             <CloseButton onClick={handleClose} />
           </Box>
-          <ModalHeader title="Nueva categoría" titleId="new-category-title" />
+          <ModalHeader title={title} titleId={titleId} />
           <DialogContent sx={{ display: 'grid', gap: 3, px: 6, pt: '0.25rem !important', pb: 5 }}>
             <TextInput
               id="category-name"
@@ -43,7 +47,10 @@ export function CategoryModal({ isOpen, categories, onClose, onSave }: CategoryM
               required
               onChange={setName}
             />
-            <SaveCancelButtons onCancel={handleClose} />
+            <SaveCancelButtons
+              onCancel={handleClose}
+              saveText={isEditing ? 'Guardar cambios' : 'Guardar'}
+            />
           </DialogContent>
         </Box>
       </Dialog>

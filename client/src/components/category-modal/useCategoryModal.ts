@@ -1,8 +1,8 @@
 import { type FormEvent, useCallback, useState } from 'react'
 import type { CategoryModalProps } from './CategoryModal.types'
 
-export function useCategoryModal({ categories, onClose, onSave }: CategoryModalProps) {
-  const [name, setName] = useState('')
+export function useCategoryModal({ categories, category, onClose, onSave }: CategoryModalProps) {
+  const [name, setName] = useState(category?.name ?? '')
   const [error, setError] = useState('')
 
   const resetForm = useCallback(() => {
@@ -23,7 +23,11 @@ export function useCategoryModal({ categories, onClose, onSave }: CategoryModalP
       if (!normalizedName) return
 
       if (
-        categories.some((category) => category.name.trim().toLocaleLowerCase() === normalizedName)
+        categories.some(
+          (currentCategory) =>
+            currentCategory.id !== category?.id &&
+            currentCategory.name.trim().toLocaleLowerCase() === normalizedName,
+        )
       ) {
         setError('Ya existe una categoría con ese nombre.')
         return
@@ -36,7 +40,7 @@ export function useCategoryModal({ categories, onClose, onSave }: CategoryModalP
         setError(reason instanceof Error ? reason.message : 'No se pudo guardar la categoría.')
       }
     },
-    [categories, handleClose, name, onSave],
+    [categories, category?.id, handleClose, name, onSave],
   )
 
   return { name, setName, error, clearError: () => setError(''), handleClose, handleSubmit }
