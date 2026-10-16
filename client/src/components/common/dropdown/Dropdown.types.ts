@@ -1,16 +1,13 @@
-export type DropdownOption = {
-  label: string
-  value: string
-}
-
-export type DropdownProps = {
+export type DropdownProps<T extends object> = {
   id: string
   label: string
-  value: string
-  options: DropdownOption[]
+  value: T | null
+  options: T[]
+  valueKey: keyof T
+  labelKey: keyof T
   placeholder: string
   emptyMessage?: string
   disabled?: boolean
   required?: boolean
-  onChange: (value: string) => void
+  onChange: (value: T) => void
 }

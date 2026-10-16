@@ -26,8 +26,8 @@ export function MovementModal(props: MovementModalProps) {
     setAmount,
     date,
     setDate,
-    categoryId,
-    setCategoryId,
+    category,
+    setCategory,
     isRecurring,
     setIsRecurring,
     includeCurrentMonth,
@@ -35,7 +35,6 @@ export function MovementModal(props: MovementModalProps) {
     currentMonthDay,
     setCurrentMonthDay,
     categories,
-    categoryOptions,
     error,
     isSubmitting,
     recurringMode,
@@ -95,13 +94,15 @@ export function MovementModal(props: MovementModalProps) {
           <Dropdown
             id="movement-category"
             label="Categoría"
-            value={categoryId}
-            options={categoryOptions}
+            value={category}
+            options={categories}
+            valueKey="id"
+            labelKey="name"
             placeholder="Selecciona una categoría"
             emptyMessage="No hay categorías creadas"
             disabled={categories.length === 0}
             required
-            onChange={setCategoryId}
+            onChange={setCategory}
           />
           {categories.length === 0 && (
             <Typography variant="caption" sx={{ color: 'app.textSoft' }}>

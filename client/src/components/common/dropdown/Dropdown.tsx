@@ -4,17 +4,19 @@ import MenuItem from '@mui/material/MenuItem'
 import Select from '@mui/material/Select'
 import type { DropdownProps } from './Dropdown.types'
 
-export function Dropdown({
+export function Dropdown<T extends object>({
   id,
   label,
   value,
   options,
+  valueKey,
+  labelKey,
   placeholder,
   emptyMessage = 'No hay opciones disponibles',
   disabled = false,
   required = false,
   onChange,
-}: DropdownProps) {
+}: DropdownProps<T>) {
   const hasOptions = options.length > 0
   const displayedPlaceholder = hasOptions ? placeholder : emptyMessage
   const labelId = `${id}-label`
@@ -27,13 +29,17 @@ export function Dropdown({
       <Select
         labelId={labelId}
         id={id}
-        value={value}
+        value={value ?? ''}
         label={label}
         notched
         displayEmpty
         required={required}
-        onChange={(event) => onChange(event.target.value)}
-        renderValue={(selected) => selected || displayedPlaceholder}
+        onChange={(event) => onChange(event.target.value as T)}
+        renderValue={(selected) =>
+          typeof selected === 'object' && selected !== null
+            ? String((selected as T)[labelKey])
+            : displayedPlaceholder
+        }
         MenuProps={{
           slotProps: {
             paper: {
@@ -43,8 +49,8 @@ export function Dropdown({
         }}
       >
         {options.map((option) => (
-          <MenuItem key={option.value} value={option.value}>
-            {option.label}
+          <MenuItem key={String(option[valueKey])} value={option as unknown as string}>
+            {String(option[labelKey])}
           </MenuItem>
         ))}
       </Select>

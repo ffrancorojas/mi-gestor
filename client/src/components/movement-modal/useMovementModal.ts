@@ -1,4 +1,4 @@
-import { type FormEvent, useCallback, useEffect, useMemo, useState } from 'react'
+import { type FormEvent, useCallback, useEffect, useState } from 'react'
 import { getCategories, type Category } from '@/api'
 import {
   getCurrentDate,
@@ -25,7 +25,7 @@ export function useMovementModal({
   const [date, setDate] = useState(
     initialValues?.date ?? (recurringMode ? getDefaultRecurringDate : getCurrentDate),
   )
-  const [categoryId, setCategoryId] = useState(initialValues?.categoryId ?? '')
+  const [category, setCategory] = useState<Category | null>(null)
   const [isRecurring, setIsRecurring] = useState(initialValues?.isRecurring ?? recurringMode)
   const [includeCurrentMonth, setIncludeCurrentMonth] = useState(false)
   const [currentMonthDay, setCurrentMonthDay] = useState(String(new Date().getDate()))
@@ -40,7 +40,10 @@ export function useMovementModal({
 
     getCategories()
       .then((data) => {
-        if (isMounted) setCategories(data)
+        if (isMounted) {
+          setCategories(data)
+          setCategory(data.find((item) => item.id === initialValues?.categoryId) ?? null)
+        }
       })
       .catch((reason: unknown) => {
         if (isMounted) {
@@ -53,13 +56,13 @@ export function useMovementModal({
     return () => {
       isMounted = false
     }
-  }, [isOpen])
+  }, [initialValues?.categoryId, isOpen])
 
   const resetForm = useCallback(() => {
     setDescription(initialValues?.description ?? '')
     setAmount(initialValues ? formatCurrencyValue(String(initialValues.amountCents / 100)) : '')
     setDate(initialValues?.date ?? (recurringMode ? getDefaultRecurringDate() : getCurrentDate()))
-    setCategoryId(initialValues?.categoryId ?? '')
+    setCategory(null)
     setIsRecurring(initialValues?.isRecurring ?? recurringMode)
     setIncludeCurrentMonth(false)
     setCurrentMonthDay(String(new Date().getDate()))
@@ -79,6 +82,7 @@ export function useMovementModal({
 
       const numericAmount = parseCurrencyValue(amount)
       const numericDay = Number(currentMonthDay)
+      const categoryId = category?.id ?? ''
 
       if (
         !description.trim() ||
@@ -122,7 +126,7 @@ export function useMovementModal({
     },
     [
       amount,
-      categoryId,
+      category,
       currentMonthDay,
       date,
       description,
@@ -135,11 +139,6 @@ export function useMovementModal({
     ],
   )
 
-  const categoryOptions = useMemo(
-    () => categories.map((category) => ({ label: category.name, value: category.id })),
-    [categories],
-  )
-
   return {
     description,
     setDescription,
@@ -147,8 +146,8 @@ export function useMovementModal({
     setAmount,
     date,
     setDate,
-    categoryId,
-    setCategoryId,
+    category,
+    setCategory,
     isRecurring: recurringMode || isRecurring,
     setIsRecurring,
     includeCurrentMonth,
@@ -156,7 +155,6 @@ export function useMovementModal({
     currentMonthDay,
     setCurrentMonthDay,
     categories,
-    categoryOptions,
     error,
     isSubmitting,
     recurringMode,
